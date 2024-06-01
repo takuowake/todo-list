@@ -4,6 +4,8 @@ import 'package:intl/intl.dart';
 import '../controllers/todo_provider.dart';
 
 class TodoListScreen extends ConsumerWidget {
+  const TodoListScreen({super.key});
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final todoList = ref.watch(todoListProvider);
@@ -41,7 +43,7 @@ class TodoListScreen extends ConsumerWidget {
                   children: [
                     if (isEditable)
                       IconButton(
-                        icon: Icon(Icons.edit),
+                        icon: const Icon(Icons.edit),
                         onPressed: () {
                           _promptEditTodo(context, ref, index, todo.title);
                         },
@@ -53,7 +55,7 @@ class TodoListScreen extends ConsumerWidget {
                       },
                     ),
                     IconButton(
-                      icon: Icon(Icons.delete),
+                      icon: const Icon(Icons.delete),
                       onPressed: () {
                         ref.read(todoListProvider.notifier).remove(index);
                       },
@@ -73,7 +75,7 @@ class TodoListScreen extends ConsumerWidget {
           _promptAddTodo(context, ref);
         },
         tooltip: 'Add Task',
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
     );
   }
@@ -84,18 +86,18 @@ class TodoListScreen extends ConsumerWidget {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Add a new task'),
+          title: const Text('Add a new task'),
           content: TextField(
             controller: textController,
             autofocus: true,
-            decoration: InputDecoration(labelText: 'Task'),
+            decoration: const InputDecoration(labelText: 'Task'),
           ),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('Cancel'),
+              child: const Text('Cancel'),
             ),
             TextButton(
               onPressed: () {
@@ -103,7 +105,7 @@ class TodoListScreen extends ConsumerWidget {
                 textController.clear();
                 Navigator.of(context).pop();
               },
-              child: Text('Add'),
+              child: const Text('Add'),
             ),
           ],
         );
@@ -117,7 +119,7 @@ class TodoListScreen extends ConsumerWidget {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Edit task'),
+          title: const Text('Edit task'),
           content: TextField(
             controller: textController,
             autofocus: true,
@@ -127,14 +129,14 @@ class TodoListScreen extends ConsumerWidget {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('Cancel'),
+              child: const Text('Cancel'),
             ),
             TextButton(
               onPressed: () {
                 ref.read(todoListProvider.notifier).edit(index, textController.text);
                 Navigator.of(context).pop();
               },
-              child: Text('Save'),
+              child: const Text('Save'),
             ),
           ],
         );
