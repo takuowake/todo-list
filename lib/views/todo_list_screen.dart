@@ -86,18 +86,18 @@ class TodoListScreen extends ConsumerWidget {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Add a new task'),
+          title: const Text('ToDoを追加する'),
           content: TextField(
             controller: textController,
             autofocus: true,
-            decoration: const InputDecoration(labelText: 'Task'),
+            decoration: const InputDecoration(labelText: 'ToDo'),
           ),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: const Text('Cancel'),
+              child: const Text('キャンセル'),
             ),
             TextButton(
               onPressed: () {
@@ -105,7 +105,7 @@ class TodoListScreen extends ConsumerWidget {
                 textController.clear();
                 Navigator.of(context).pop();
               },
-              child: const Text('Add'),
+              child: const Text('保存する'),
             ),
           ],
         );
@@ -119,7 +119,7 @@ class TodoListScreen extends ConsumerWidget {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Edit task'),
+          title: const Text('ToDoを編集する'),
           content: TextField(
             controller: textController,
             autofocus: true,
@@ -129,14 +129,14 @@ class TodoListScreen extends ConsumerWidget {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: const Text('Cancel'),
+              child: const Text('キャンセル'),
             ),
             TextButton(
               onPressed: () {
                 ref.read(todoListProvider.notifier).edit(index, textController.text);
                 Navigator.of(context).pop();
               },
-              child: const Text('Save'),
+              child: const Text('保存する'),
             ),
           ],
         );
