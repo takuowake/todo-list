@@ -31,40 +31,49 @@ class TodoListScreen extends ConsumerWidget {
             itemBuilder: (context, index) {
               final todo = todoList[index];
               final isEditable = DateTime.now().difference(todo.createdTime).inHours < 24;
-              return ListTile(
-                title: Text(
-                  todo.title,
-                  style: TextStyle(
-                    decoration: todo.isCompleted ? TextDecoration.lineThrough : null,
-                  ),
+
+              return Container(
+                margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                padding: const EdgeInsets.all(8.0),
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.8),
+                  borderRadius: BorderRadius.circular(10),
                 ),
-                trailing: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    if (isEditable)
+                child: ListTile(
+                  title: Text(
+                    todo.title,
+                    style: TextStyle(
+                      decoration: todo.isCompleted ? TextDecoration.lineThrough : null,
+                    ),
+                  ),
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      if (isEditable)
+                        IconButton(
+                          icon: const Icon(Icons.edit),
+                          onPressed: () {
+                            _promptEditTodo(context, ref, index, todo.title);
+                          },
+                        ),
                       IconButton(
-                        icon: const Icon(Icons.edit),
+                        icon: Icon(todo.isCompleted ? Icons.check_box : Icons.check_box_outline_blank),
                         onPressed: () {
-                          _promptEditTodo(context, ref, index, todo.title);
+                          ref.read(todoListProvider.notifier).toggleComplete(index);
                         },
                       ),
-                    IconButton(
-                      icon: Icon(todo.isCompleted ? Icons.check_box : Icons.check_box_outline_blank),
-                      onPressed: () {
-                        ref.read(todoListProvider.notifier).toggleComplete(index);
-                      },
-                    ),
-                    IconButton(
-                      icon: const Icon(Icons.delete),
-                      onPressed: () {
-                        ref.read(todoListProvider.notifier).remove(index);
-                      },
-                    ),
-                  ],
+                      IconButton(
+                        icon: const Icon(Icons.delete),
+                        onPressed: () {
+                          ref.read(todoListProvider.notifier).remove(index);
+                        },
+                      ),
+                    ],
+                  ),
+                  onTap: () {
+                    ref.read(todoListProvider.notifier).toggleComplete(index);
+                  },
                 ),
-                onTap: () {
-                  ref.read(todoListProvider.notifier).toggleComplete(index);
-                },
               );
             },
           ),
