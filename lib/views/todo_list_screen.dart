@@ -95,7 +95,7 @@ class _TodoListScreenState extends ConsumerState<TodoListScreen> {
                           IconButton(
                             icon: const Icon(Icons.delete),
                             onPressed: () {
-                              ref.read(todoListProvider.notifier).remove(todo.id);
+                              _showDeleteDialog(context, ref, todo.id);
                             },
                           ),
                         ],
@@ -212,9 +212,15 @@ class _TodoListScreenState extends ConsumerState<TodoListScreen> {
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
                                           IconButton(
+                                            icon: const Icon(Icons.reply),
+                                            onPressed: () {
+                                              _showRestoreDialog(context, ref, todo.id);
+                                            },
+                                          ),
+                                          IconButton(
                                             icon: const Icon(Icons.delete),
                                             onPressed: () {
-                                              ref.read(todoListProvider.notifier).remove(todo.id);
+                                              _showDeleteDialog(context, ref, todo.id);
                                             },
                                           ),
                                         ],
@@ -301,6 +307,58 @@ class _TodoListScreenState extends ConsumerState<TodoListScreen> {
                 Navigator.of(context).pop();
               },
               child: const Text('保存する'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showDeleteDialog(BuildContext context, WidgetRef ref, String todoId) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('このToDoを削除しますか？'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                ref.read(todoListProvider.notifier).remove(todoId);
+                Navigator.of(context).pop();
+              },
+              child: const Text('削除する'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('キャンセル'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showRestoreDialog(BuildContext context, WidgetRef ref, String todoId) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('このToDoを戻しますか？'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                ref.read(todoListProvider.notifier).toggleComplete(todoId);
+                Navigator.of(context).pop();
+              },
+              child: const Text('はい'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('キャンセル'),
             ),
           ],
         );
