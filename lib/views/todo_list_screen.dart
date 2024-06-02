@@ -66,7 +66,7 @@ class _TodoListScreenState extends ConsumerState<TodoListScreen> {
                     margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                     padding: const EdgeInsets.all(8.0),
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.8),
+                      color: Colors.white.withOpacity(0.5),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: ListTile(
@@ -144,80 +144,90 @@ class _TodoListScreenState extends ConsumerState<TodoListScreen> {
               ),
             ),
             if (showCompletedTasks)
-              Positioned(
-                bottom: 200,
-                left: 0,
-                right: 0,
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    showCompletedTasks = false;
+                  });
+                },
                 child: Container(
-                  height: MediaQuery.of(context).size.height * 0.4,
-                  child: Stack(
-                    children: [
-                      // 背景画像に丸みを追加
-                      ClipRRect(
+                  color: Colors.white.withOpacity(0.8),
+                  child: Center(
+                    child: Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 16.0),
+                      height: MediaQuery.of(context).size.height * 0.4,
+                      decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
-                        child: Image.asset(
-                          'assets/images/app_icon.png', // 背景画像のパスを指定
-                          fit: BoxFit.cover,
-                          width: double.infinity,
-                          height: double.infinity,
-                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.5),
+                            spreadRadius: 2,
+                            blurRadius: 10,
+                            offset: const Offset(0, 2),
+                          ),
+                        ],
                       ),
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.7), // 背景の白い色も透けるようにする
-                          borderRadius: BorderRadius.circular(20), // ボーダーの丸みを増やす
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.1),
-                              spreadRadius: 2,
-                              blurRadius: 10,
-                              offset: Offset(0, 2),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(20),
+                        child: Stack(
+                          children: [
+                            Image.asset(
+                              'assets/images/app_icon.png', // 背景画像のパスを指定
+                              fit: BoxFit.cover,
+                              width: double.infinity,
+                              height: double.infinity,
+                            ),
+                            Container(
+                              decoration: BoxDecoration(
+                                color: Colors.white.withOpacity(0.8), // 背景の白い色も透けるようにする
+                                borderRadius: BorderRadius.circular(20), // ボーダーの丸みを増やす
+                              ),
+                              padding: const EdgeInsets.all(8.0), // パディングを追加
+                              child: ListView.builder(
+                                itemCount: completedTodos.length,
+                                itemBuilder: (context, index) {
+                                  final todo = completedTodos[index];
+                                  return Container(
+                                    margin: const EdgeInsets.symmetric(vertical: 5), // アイテム間にスペースを追加
+                                    decoration: BoxDecoration(
+                                      color: Colors.white.withOpacity(0.5),
+                                      borderRadius: BorderRadius.circular(15),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black.withOpacity(0.1),
+                                          spreadRadius: 1,
+                                          blurRadius: 5,
+                                          offset: const Offset(0, 2),
+                                        ),
+                                      ],
+                                    ),
+                                    child: ListTile(
+                                      title: Text(
+                                        todo.title,
+                                        style: const TextStyle(
+                                          decoration: TextDecoration.lineThrough,
+                                        ),
+                                      ),
+                                      trailing: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          IconButton(
+                                            icon: const Icon(Icons.delete),
+                                            onPressed: () {
+                                              ref.read(todoListProvider.notifier).remove(todo.id);
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
                             ),
                           ],
                         ),
-                        padding: const EdgeInsets.all(8.0), // パディングを追加
-                        child: ListView.builder(
-                          itemCount: completedTodos.length,
-                          itemBuilder: (context, index) {
-                            final todo = completedTodos[index];
-                            return Container(
-                              margin: const EdgeInsets.symmetric(vertical: 5), // アイテム間にスペースを追加
-                              decoration: BoxDecoration(
-                                color: Colors.white.withOpacity(0.8),
-                                borderRadius: BorderRadius.circular(15),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black.withOpacity(0.05),
-                                    spreadRadius: 1,
-                                    blurRadius: 5,
-                                    offset: Offset(0, 2),
-                                  ),
-                                ],
-                              ),
-                              child: ListTile(
-                                title: Text(
-                                  todo.title,
-                                  style: const TextStyle(
-                                    decoration: TextDecoration.lineThrough,
-                                  ),
-                                ),
-                                trailing: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    IconButton(
-                                      icon: const Icon(Icons.delete),
-                                      onPressed: () {
-                                        ref.read(todoListProvider.notifier).remove(todo.id);
-                                      },
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            );
-                          },
-                        ),
                       ),
-                    ],
+                    ),
                   ),
                 ),
               ),
