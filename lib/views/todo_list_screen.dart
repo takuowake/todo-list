@@ -47,59 +47,62 @@ class _TodoListScreenState extends ConsumerState<TodoListScreen> {
             ),
           ),
           // 透明な背景を持つListView
-          ListView.builder(
-            itemCount: incompleteTodos.length,
-            itemBuilder: (context, index) {
-              final todo = incompleteTodos[index];
-              final isEditable = DateTime.now().difference(todo.createdTime).inHours < 24;
+          Padding(
+            padding: const EdgeInsets.only(bottom: 80.0),
+            child: ListView.builder(
+              itemCount: incompleteTodos.length,
+              itemBuilder: (context, index) {
+                final todo = incompleteTodos[index];
+                final isEditable = DateTime.now().difference(todo.createdTime).inHours < 24;
 
-              return Container(
-                margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                padding: const EdgeInsets.all(8.0),
-                decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.8),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: ListTile(
-                  title: Text(
-                    todo.title,
-                    style: TextStyle(
-                      decoration: todo.isCompleted ? TextDecoration.lineThrough : null,
-                    ),
+                return Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  padding: const EdgeInsets.all(8.0),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.8),
+                    borderRadius: BorderRadius.circular(10),
                   ),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      if (isEditable)
+                  child: ListTile(
+                    title: Text(
+                      todo.title,
+                      style: TextStyle(
+                        decoration: todo.isCompleted ? TextDecoration.lineThrough : null,
+                      ),
+                    ),
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        if (isEditable)
+                          IconButton(
+                            icon: const Icon(Icons.edit),
+                            onPressed: () {
+                              _promptEditTodo(context, ref, todo.id, todo.title);
+                            },
+                          ),
                         IconButton(
-                          icon: const Icon(Icons.edit),
+                          icon: Icon(todo.isCompleted ? Icons.check_box : Icons.check_box_outline_blank),
                           onPressed: () {
-                            _promptEditTodo(context, ref, todo.id, todo.title);
+                            ref.read(todoListProvider.notifier).toggleComplete(todo.id);
                           },
                         ),
-                      IconButton(
-                        icon: Icon(todo.isCompleted ? Icons.check_box : Icons.check_box_outline_blank),
-                        onPressed: () {
-                          ref.read(todoListProvider.notifier).toggleComplete(todo.id);
-                        },
-                      ),
-                      IconButton(
-                        icon: const Icon(Icons.delete),
-                        onPressed: () {
-                          ref.read(todoListProvider.notifier).remove(todo.id);
-                        },
-                      ),
-                    ],
+                        IconButton(
+                          icon: const Icon(Icons.delete),
+                          onPressed: () {
+                            ref.read(todoListProvider.notifier).remove(todo.id);
+                          },
+                        ),
+                      ],
+                    ),
+                    onTap: () {
+                      ref.read(todoListProvider.notifier).toggleComplete(todo.id);
+                    },
                   ),
-                  onTap: () {
-                    ref.read(todoListProvider.notifier).toggleComplete(todo.id);
-                  },
-                ),
-              );
-            },
+                );
+              },
+            ),
           ),
           Positioned(
-            bottom: 80,
+            bottom: 0,
             left: 0,
             right: 0,
             child: Center(
