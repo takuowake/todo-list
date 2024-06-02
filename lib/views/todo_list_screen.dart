@@ -105,7 +105,7 @@ class _TodoListScreenState extends ConsumerState<TodoListScreen> {
                   });
                 },
                 icon: Icon(showCompletedTasks ? Icons.arrow_drop_up : Icons.arrow_drop_down),
-                label: Text(showCompletedTasks ? '完了済みのタスクを隠す' : '🔻完了済みのタスクを見る'),
+                label: Text(showCompletedTasks ? '完了済みのタスクを隠す' : '完了済みのタスクを見る'),
               ),
             ),
           ),
@@ -121,24 +121,29 @@ class _TodoListScreenState extends ConsumerState<TodoListScreen> {
                   itemCount: completedTodos.length,
                   itemBuilder: (context, index) {
                     final todo = completedTodos[index];
-                    return ListTile(
-                      title: Text(
-                        todo.title,
-                        style: TextStyle(
-                          decoration: TextDecoration.lineThrough,
-                        ),
-                      ),
-                      trailing: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          IconButton(
-                            icon: const Icon(Icons.delete),
-                            onPressed: () {
-                              ref.read(todoListProvider.notifier).remove(todo.id);
-                            },
+                    return Column(
+                      children: [
+                        ListTile(
+                          title: Text(
+                            todo.title,
+                            style: const TextStyle(
+                              decoration: TextDecoration.lineThrough,
+                            ),
                           ),
-                        ],
-                      ),
+                          trailing: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              IconButton(
+                                icon: const Icon(Icons.delete),
+                                onPressed: () {
+                                  ref.read(todoListProvider.notifier).remove(todo.id);
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                        const Divider(),  // Add a divider between each task
+                      ],
                     );
                   },
                 ),
