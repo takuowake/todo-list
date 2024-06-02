@@ -249,7 +249,7 @@ class _TodoListScreenState extends ConsumerState<TodoListScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('ToDoを追加する'),
+          title: const Text('ToDoを追加'),
           content: TextField(
             controller: textController,
             autofocus: true,
@@ -288,7 +288,7 @@ class _TodoListScreenState extends ConsumerState<TodoListScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('ToDoを編集する'),
+          title: const Text('ToDoを編集'),
           content: TextField(
             controller: textController,
             autofocus: true,
@@ -319,7 +319,7 @@ class _TodoListScreenState extends ConsumerState<TodoListScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('このToDoを削除しますか？'),
+          title: const Text('ToDoを削除'),
           actions: [
             TextButton(
               onPressed: () {
