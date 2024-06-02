@@ -4,11 +4,6 @@ import 'package:intl/intl.dart';
 import 'package:todo_list/models/todo_model.dart';
 import '../controllers/todo_provider.dart';
 
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart';
-import '../controllers/todo_provider.dart';
-
 class TodoListScreen extends ConsumerStatefulWidget {
   const TodoListScreen({super.key});
 
@@ -31,6 +26,16 @@ class _TodoListScreenState extends ConsumerState<TodoListScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(formattedDate),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.add),
+            color: Colors.black,
+            onPressed: () {
+              _promptAddTodo(context, ref);
+            },
+            tooltip: 'Add Task',
+          ),
+        ],
       ),
       body: Stack(
         children: [
@@ -163,26 +168,6 @@ class _TodoListScreenState extends ConsumerState<TodoListScreen> {
               ),
             ),
         ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          _promptAddTodo(context, ref);
-        },
-        tooltip: 'Add Task',
-        backgroundColor: Colors.lightBlueAccent, // 背景色を薄いブルーに設定
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.add, color: Colors.white), // アイコンの色を白に設定
-            Text(
-              '追加',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 12.0, // テキストサイズを調整
-              ),
-            ),
-          ],
-        ),
       ),
     );
   }
