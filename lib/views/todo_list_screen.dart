@@ -172,6 +172,7 @@ class _TodoListScreenState extends ConsumerState<TodoListScreen> {
             controller: textController,
             autofocus: true,
             decoration: const InputDecoration(labelText: 'ToDo'),
+            maxLines: null,
           ),
           actions: [
             TextButton(
@@ -209,6 +210,7 @@ class _TodoListScreenState extends ConsumerState<TodoListScreen> {
           content: TextField(
             controller: textController,
             autofocus: true,
+            maxLines: null,
           ),
           actions: [
             TextButton(
