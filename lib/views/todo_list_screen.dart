@@ -105,13 +105,26 @@ class _TodoListScreenState extends ConsumerState<TodoListScreen> {
                   });
                 },
                 icon: Icon(showCompletedTasks ? Icons.arrow_drop_up : Icons.arrow_drop_down),
-                label: Text(showCompletedTasks ? '完了済みのタスクを隠す' : '完了済みのタスクを見る'),
+                label: Text(
+                  showCompletedTasks ? '完了済みのタスクを隠す' : '完了済みのタスクを見る',
+                  style: TextStyle(
+                    color: Colors.black,
+                  ),
+                ),
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: Colors.black,
+                  backgroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30.0),
+                  ),
+                  padding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+                ),
               ),
             ),
           ),
           if (showCompletedTasks)
             Positioned(
-              bottom: 120,
+              bottom: 200,
               left: 0,
               right: 0,
               child: Container(
@@ -156,7 +169,20 @@ class _TodoListScreenState extends ConsumerState<TodoListScreen> {
           _promptAddTodo(context, ref);
         },
         tooltip: 'Add Task',
-        child: const Icon(Icons.add),
+        backgroundColor: Colors.lightBlueAccent, // 背景色を薄いブルーに設定
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.add, color: Colors.white), // アイコンの色を白に設定
+            Text(
+              '追加',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 12.0, // テキストサイズを調整
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
