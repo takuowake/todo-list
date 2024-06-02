@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -9,6 +10,8 @@ final todoListProvider = StateNotifierProvider<TodoListController, List<Todo>>((
 });
 
 class TodoListController extends StateNotifier<List<Todo>> {
+  Map<String, Timer> _timers = {};
+
   TodoListController() : super([]) {
     _loadTodos();
   }
@@ -16,11 +19,14 @@ class TodoListController extends StateNotifier<List<Todo>> {
   void add(Todo todo) {
     state = [...state, todo];
     _saveTodos();
+    _scheduleDeletion(todo);
   }
 
   void remove(String id) {
     state = state.where((todo) => todo.id != id).toList();
     _saveTodos();
+    _timers[id]?.cancel();
+    _timers.remove(id);
   }
 
   void toggleComplete(String id) {
@@ -50,6 +56,13 @@ class TodoListController extends StateNotifier<List<Todo>> {
     final todoList = prefs.getStringList('todos') ?? [];
     state = todoList.map((todo) => Todo.fromJson(jsonDecode(todo))).toList();
     _sortTodos();
+    for (var todo in state) {
+      if (DateTime.now().difference(todo.createdTime).inHours < 24) {
+        _scheduleDeletion(todo);
+      } else {
+        remove(todo.id); // 24時間を超えていたら直接削除
+      }
+    }
   }
 
   void _saveTodos() async {
@@ -64,5 +77,10 @@ class TodoListController extends StateNotifier<List<Todo>> {
       ...state.where((todo) => !todo.isCompleted && DateTime.now().difference(todo.createdTime).inHours >= 24),
       ...state.where((todo) => todo.isCompleted),
     ];
+  }
+
+  void _scheduleDeletion(Todo todo) {
+    var timer = Timer(Duration(hours: 24), () => remove(todo.id));
+    _timers[todo.id] = timer;
   }
 }
