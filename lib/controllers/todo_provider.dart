@@ -41,14 +41,18 @@ class TodoListController extends StateNotifier<List<Todo>> {
   }
 
   void edit(String id, String newTitle) {
-    state = [
+    final newList = [
       for (final todo in state)
         if (todo.id == id)
-          todo.copyWith(title: newTitle)
+          todo.copyWith(title: newTitle, updatedTime: DateTime.now())
         else
           todo,
     ];
+    state = newList;
     _saveTodos();
+
+    final editedTodo = newList.firstWhere((todo) => todo.id == id);
+    _scheduleDeletion(editedTodo); // 編集時にタイマーをリセット
   }
 
   void _loadTodos() async {
@@ -57,7 +61,7 @@ class TodoListController extends StateNotifier<List<Todo>> {
     state = todoList.map((todo) => Todo.fromJson(jsonDecode(todo))).toList();
     _sortTodos();
     for (var todo in state) {
-      if (DateTime.now().difference(todo.createdTime).inHours < 24) {
+      if (DateTime.now().difference(todo.updatedTime).inHours < 24) {
         _scheduleDeletion(todo);
       } else {
         remove(todo.id); // 24時間を超えていたら直接削除
@@ -80,7 +84,8 @@ class TodoListController extends StateNotifier<List<Todo>> {
   }
 
   void _scheduleDeletion(Todo todo) {
-    var timer = Timer(Duration(hours: 24), () => remove(todo.id));
+    _timers[todo.id]?.cancel(); // 既存のタイマーをキャンセル
+    var timer = Timer(Duration(hours: 24 - DateTime.now().difference(todo.updatedTime).inHours), () => remove(todo.id));
     _timers[todo.id] = timer;
   }
 }

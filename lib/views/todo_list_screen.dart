@@ -269,6 +269,7 @@ class _TodoListScreenState extends ConsumerState<TodoListScreen> {
                   id: UniqueKey().toString(),
                   title: textController.text,
                   createdTime: DateTime.now(),
+                  updatedTime: DateTime.now(),
                 );
                 ref.read(todoListProvider.notifier).add(newTodo);
                 textController.clear();
