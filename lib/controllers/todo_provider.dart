@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/todo_model.dart';
@@ -11,49 +13,34 @@ class TodoListController extends StateNotifier<List<Todo>> {
     _loadTodos();
   }
 
-  void add(String title) {
-    final newTodo = Todo(
-      title: title,
-      createdTime: DateTime.now(),
-    );
-    state = [...state, newTodo];
+  void add(Todo todo) {
+    state = [...state, todo];
     _saveTodos();
   }
 
-  void remove(int index) {
+  void remove(String id) {
+    state = state.where((todo) => todo.id != id).toList();
+    _saveTodos();
+  }
+
+  void toggleComplete(String id) {
     state = [
-      for (int i = 0; i < state.length; i++)
-        if (i != index) state[i],
+      for (final todo in state)
+        if (todo.id == id)
+          todo.copyWith(isCompleted: !todo.isCompleted)
+        else
+          todo,
     ];
     _saveTodos();
   }
 
-  void toggleComplete(int index) {
+  void edit(String id, String newTitle) {
     state = [
-      for (int i = 0; i < state.length; i++)
-        if (i == index)
-          Todo(
-            title: state[i].title,
-            createdTime: state[i].createdTime,
-            isCompleted: !state[i].isCompleted,
-          )
+      for (final todo in state)
+        if (todo.id == id)
+          todo.copyWith(title: newTitle)
         else
-          state[i],
-    ];
-    _saveTodos();
-  }
-
-  void edit(int index, String newTitle) {
-    state = [
-      for (int i = 0; i < state.length; i++)
-        if (i == index)
-          Todo(
-            title: newTitle,
-            createdTime: state[i].createdTime,
-            isCompleted: state[i].isCompleted,
-          )
-        else
-          state[i],
+          todo,
     ];
     _saveTodos();
   }
@@ -61,13 +48,13 @@ class TodoListController extends StateNotifier<List<Todo>> {
   void _loadTodos() async {
     final prefs = await SharedPreferences.getInstance();
     final todoList = prefs.getStringList('todos') ?? [];
-    state = todoList.map((todo) => Todo.fromJson(todo)).toList();
+    state = todoList.map((todo) => Todo.fromJson(jsonDecode(todo))).toList();
     _sortTodos();
   }
 
   void _saveTodos() async {
     final prefs = await SharedPreferences.getInstance();
-    final todoList = state.map((todo) => todo.toJson()).toList();
+    final todoList = state.map((todo) => jsonEncode(todo.toJson())).toList();
     await prefs.setStringList('todos', todoList);
   }
 

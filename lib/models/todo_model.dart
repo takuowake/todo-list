@@ -1,31 +1,42 @@
 import 'dart:convert';
 
 class Todo {
+  final String id;
   final String title;
   final DateTime createdTime;
   final bool isCompleted;
 
   Todo({
+    required this.id,
     required this.title,
     required this.createdTime,
     this.isCompleted = false,
   });
 
-  Map<String, dynamic> toMap() => {
-    'title': title,
-    'createdTime': createdTime.toIso8601String(),
-    'isComplete': isCompleted,
-  };
-
-  factory Todo.fromMap(Map<String, dynamic> map) {
+  Todo copyWith({String? title, bool? isCompleted}) {
     return Todo(
-      title: map['title'],
-      createdTime: DateTime.parse(map['createdTime']),
-      isCompleted: map['isCompleted'] ?? false,
+      id: id,
+      title: title ?? this.title,
+      createdTime: createdTime,
+      isCompleted: isCompleted ?? this.isCompleted,
     );
   }
 
-  String toJson() => jsonEncode(toMap());
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'title': title,
+      'createdTime': createdTime.toIso8601String(),
+      'isCompleted': isCompleted,
+    };
+  }
 
-  factory Todo.fromJson(String source) => Todo.fromMap(jsonDecode(source));
+  static Todo fromJson(Map<String, dynamic> json) {
+    return Todo(
+      id: json['id'],
+      title: json['title'],
+      createdTime: DateTime.parse(json['createdTime']),
+      isCompleted: json['isCompleted'],
+    );
+  }
 }
