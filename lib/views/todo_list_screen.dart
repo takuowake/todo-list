@@ -54,7 +54,6 @@ class _TodoListScreenState extends ConsumerState<TodoListScreen> {
               itemBuilder: (context, index) {
                 final todo = incompleteTodos[index];
                 final isEditable = DateTime.now().difference(todo.createdTime).inHours < 24;
-
                 return Container(
                   margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                   padding: const EdgeInsets.all(8.0),
@@ -106,26 +105,32 @@ class _TodoListScreenState extends ConsumerState<TodoListScreen> {
             left: 0,
             right: 0,
             child: Center(
-              child: ElevatedButton.icon(
-                onPressed: () {
-                  setState(() {
-                    showCompletedTasks = !showCompletedTasks;
-                  });
-                },
-                icon: Icon(showCompletedTasks ? Icons.arrow_drop_up : Icons.arrow_drop_down),
-                label: Text(
-                  showCompletedTasks ? '完了済みのタスクを隠す' : '完了済みのタスクを見る',
-                  style: TextStyle(
-                    color: Colors.black,
+              child: Container(
+                margin: const EdgeInsets.all(16.0), // 余白を追加してボタンを中心に配置
+                child: TextButton.icon(
+                  onPressed: () {
+                    setState(() {
+                      showCompletedTasks = !showCompletedTasks;
+                    });
+                  },
+                  icon: Icon(
+                    showCompletedTasks ? Icons.arrow_drop_up : Icons.arrow_drop_down,
+                    color: showCompletedTasks ? Colors.lightBlueAccent : Colors.black,
                   ),
-                ),
-                style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.black,
-                  backgroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30.0),
+                  label: Text(
+                    showCompletedTasks ? '完了済みのタスクを隠す' : '完了済みのタスクを見る',
+                    style: TextStyle(
+                      color: showCompletedTasks ? Colors.lightBlueAccent : Colors.black,
+                    ),
                   ),
-                  padding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+                  style: TextButton.styleFrom(
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0), // パディングを調整
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30.0), // ボタンを丸みを帯びた形に
+                    ),
+                    side: const BorderSide(color: Colors.white), // ボタンの外枠を設定
+                  ),
                 ),
               ),
             ),
@@ -136,37 +141,75 @@ class _TodoListScreenState extends ConsumerState<TodoListScreen> {
               left: 0,
               right: 0,
               child: Container(
-                color: Colors.white.withOpacity(0.8),
                 height: MediaQuery.of(context).size.height * 0.4,
-                child: ListView.builder(
-                  itemCount: completedTodos.length,
-                  itemBuilder: (context, index) {
-                    final todo = completedTodos[index];
-                    return Column(
-                      children: [
-                        ListTile(
-                          title: Text(
-                            todo.title,
-                            style: const TextStyle(
-                              decoration: TextDecoration.lineThrough,
+                child: Stack(
+                  children: [
+                    // 背景画像に丸みを追加
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(20),
+                      child: Image.asset(
+                        'assets/images/app_icon.png', // 背景画像のパスを指定
+                        fit: BoxFit.cover,
+                        width: double.infinity,
+                        height: double.infinity,
+                      ),
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.7), // 背景の白い色も透けるようにする
+                        borderRadius: BorderRadius.circular(20), // ボーダーの丸みを増やす
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.1),
+                            spreadRadius: 2,
+                            blurRadius: 10,
+                            offset: Offset(0, 2),
+                          ),
+                        ],
+                      ),
+                      padding: const EdgeInsets.all(8.0), // パディングを追加
+                      child: ListView.builder(
+                        itemCount: completedTodos.length,
+                        itemBuilder: (context, index) {
+                          final todo = completedTodos[index];
+                          return Container(
+                            margin: const EdgeInsets.symmetric(vertical: 5), // アイテム間にスペースを追加
+                            decoration: BoxDecoration(
+                              color: Colors.white.withOpacity(0.8),
+                              borderRadius: BorderRadius.circular(15),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.05),
+                                  spreadRadius: 1,
+                                  blurRadius: 5,
+                                  offset: Offset(0, 2),
+                                ),
+                              ],
                             ),
-                          ),
-                          trailing: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              IconButton(
-                                icon: const Icon(Icons.delete),
-                                onPressed: () {
-                                  ref.read(todoListProvider.notifier).remove(todo.id);
-                                },
+                            child: ListTile(
+                              title: Text(
+                                todo.title,
+                                style: const TextStyle(
+                                  decoration: TextDecoration.lineThrough,
+                                ),
                               ),
-                            ],
-                          ),
-                        ),
-                        const Divider(),  // Add a divider between each task
-                      ],
-                    );
-                  },
+                              trailing: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  IconButton(
+                                    icon: const Icon(Icons.delete),
+                                    onPressed: () {
+                                      ref.read(todoListProvider.notifier).remove(todo.id);
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
