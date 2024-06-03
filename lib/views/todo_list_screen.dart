@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -13,6 +15,39 @@ class TodoListScreen extends ConsumerStatefulWidget {
 
 class _TodoListScreenState extends ConsumerState<TodoListScreen> {
   bool showCompletedTasks = false;
+  late Timer _timer;
+
+  @override
+  void initState() {
+    super.initState();
+    _startTimer();
+  }
+
+  void _startTimer() {
+    _timer = Timer.periodic(Duration(minutes: 1), (timer) {
+      setState(() {
+
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
+
+  String _formatRemainingTime(DateTime updatedTime) {
+    final now = DateTime.now();
+    final difference = updatedTime.add(Duration(hours: 24)).difference(now);
+    if (difference.isNegative) {
+      return "Expired";
+    } else {
+      final hours = difference.inHours;
+      final minutes = difference.inMinutes % 60;
+      return '$hours 時間 $minutes 分';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +96,7 @@ class _TodoListScreenState extends ConsumerState<TodoListScreen> {
                 itemCount: incompleteTodos.length,
                 itemBuilder: (context, index) {
                   final todo = incompleteTodos[index];
-                  final isEditable = DateTime.now().difference(todo.createdTime).inHours < 24;
+                  final isEditable = DateTime.now().difference(todo.updatedTime).inHours < 24;
                   return Container(
                     margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                     padding: const EdgeInsets.all(8.0),
@@ -76,6 +111,7 @@ class _TodoListScreenState extends ConsumerState<TodoListScreen> {
                           decoration: todo.isCompleted ? TextDecoration.lineThrough : null,
                         ),
                       ),
+                      subtitle: Text('残り: ${_formatRemainingTime(todo.updatedTime)}'),
                       trailing: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
