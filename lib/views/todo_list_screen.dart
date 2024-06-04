@@ -61,6 +61,12 @@ class _TodoListScreenState extends ConsumerState<TodoListScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Center(child: Text(formattedDate)),
+        leading: IconButton(
+          icon: const Icon(Icons.settings),
+          onPressed: () {
+
+          },
+        ),
         actions: [
           IconButton(
             icon: const Icon(Icons.add),
