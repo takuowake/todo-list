@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:todo_list/views/todo_list_screen.dart';
 
 class SettingsScreen extends ConsumerWidget {
@@ -27,10 +28,7 @@ class SettingsScreen extends ConsumerWidget {
                     IconButton(
                       icon: Icon(Icons.home),
                       onPressed: () {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(builder: (context) => TodoListScreen()),
-                        );
+                        context.go('/');
                       },
                     ),
                   ],
