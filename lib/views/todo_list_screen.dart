@@ -60,6 +60,31 @@ class _TodoListScreenState extends ConsumerState<TodoListScreen> {
     final completedTodos = todoList.where((todo) => todo.isCompleted).toList();
 
     return Scaffold(
+      extendBodyBehindAppBar: true, // AppBarが背景画像の上に透明に表示されるように設定
+      appBar: AppBar(
+        title: Center(child: Text(formattedDate)),
+        backgroundColor: Colors.transparent,
+        elevation: 0, // 影をなくす
+        leading: IconButton(
+          icon: const Icon(Icons.settings),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => SettingsScreen()),
+            );
+          },
+        ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.add),
+            color: Colors.black,
+            onPressed: () {
+              _promptAddTodo(context, ref);
+            },
+            tooltip: 'Add Task',
+          ),
+        ],
+      ),
       body: GestureDetector(
         onTap: () {
           if (showCompletedTasks) {
@@ -78,85 +103,63 @@ class _TodoListScreenState extends ConsumerState<TodoListScreen> {
                 ),
               ),
             ),
-            // 透明な背景を持つListView
             SafeArea(
               child: Column(
                 children: [
-                  AppBar(
-                    title: Center(child: Text(formattedDate)),
-                    backgroundColor: Colors.transparent,
-                    leading: IconButton(
-                      icon: const Icon(Icons.settings),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => SettingsScreen()),
-                        );
-                      },
-                    ),
-                    actions: [
-                      IconButton(
-                        icon: const Icon(Icons.add),
-                        color: Colors.black,
-                        onPressed: () {
-                          _promptAddTodo(context, ref);
-                        },
-                        tooltip: 'Add Task',
-                      ),
-                    ],
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 80.0),
-                    child: ListView.builder(
-                      itemCount: incompleteTodos.length,
-                      itemBuilder: (context, index) {
-                        final todo = incompleteTodos[index];
-                        final isEditable = DateTime.now().difference(todo.updatedTime).inHours < 24;
-                        return Container(
-                          margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                          padding: const EdgeInsets.all(8.0),
-                          decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.5),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: ListTile(
-                            title: Text(
-                              todo.title,
-                              style: TextStyle(
-                                decoration: todo.isCompleted ? TextDecoration.lineThrough : null,
-                              ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 80.0),
+                      child: ListView.builder(
+                        itemCount: incompleteTodos.length,
+                        itemBuilder: (context, index) {
+                          final todo = incompleteTodos[index];
+                          final isEditable = DateTime.now().difference(todo.updatedTime).inHours < 24;
+                          return Container(
+                            margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                            padding: const EdgeInsets.all(8.0),
+                            decoration: BoxDecoration(
+                              color: Colors.white.withOpacity(0.5),
+                              borderRadius: BorderRadius.circular(10),
                             ),
-                            subtitle: Text('残り: ${_formatRemainingTime(todo.updatedTime)}'),
-                            trailing: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                if (isEditable)
+                            child: ListTile(
+                              title: Text(
+                                todo.title,
+                                style: TextStyle(
+                                  decoration: todo.isCompleted ? TextDecoration.lineThrough : null,
+                                ),
+                              ),
+                              subtitle: Text('残り: ${_formatRemainingTime(todo.updatedTime)}'),
+                              trailing: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  if (isEditable)
+                                    IconButton(
+                                      icon: const Icon(Icons.edit),
+                                      onPressed: () {
+                                        _promptEditTodo(context, ref, todo.id, todo.title);
+                                      },
+                                    ),
                                   IconButton(
-                                    icon: const Icon(Icons.edit),
+                                    icon: Icon(todo.isCompleted ? Icons.check_box : Icons.check_box_outline_blank),
                                     onPressed: () {
-                                      _promptEditTodo(context, ref, todo.id, todo.title);
+                                      ref.read(todoListProvider.notifier).toggleComplete(todo.id);
                                     },
                                   ),
-                                IconButton(
-                                  icon: Icon(todo.isCompleted ? Icons.check_box : Icons.check_box_outline_blank),
-                                  onPressed: () {
-                                    ref.read(todoListProvider.notifier).toggleComplete(todo.id);
-                                  },
-                                ),
-                                IconButton(
-                                  icon: const Icon(Icons.delete),
-                                  onPressed: () {
-                                    _showDeleteDialog(context, ref, todo.id);
-                                  },
-                                ),
-                              ],
+                                  IconButton(
+                                    icon: const Icon(Icons.delete),
+                                    onPressed: () {
+                                      _showDeleteDialog(context, ref, todo.id);
+                                    },
+                                  ),
+                                ],
+                              ),
+                              onTap: () {
+                                ref.read(todoListProvider.notifier).toggleComplete(todo.id);
+                              },
                             ),
-                            onTap: () {
-                              ref.read(todoListProvider.notifier).toggleComplete(todo.id);
-                            },
-                          ),
-                        );
-                      },
+                          );
+                        },
+                      ),
                     ),
                   ),
                   Positioned(
