@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:todo_list/models/todo_model.dart';
 import 'package:todo_list/views/settings_screen.dart';
@@ -68,10 +69,7 @@ class _TodoListScreenState extends ConsumerState<TodoListScreen> {
         leading: IconButton(
           icon: const Icon(Icons.settings),
           onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => SettingsScreen()),
-            );
+            context.go('/settings');
           },
         ),
         actions: [
