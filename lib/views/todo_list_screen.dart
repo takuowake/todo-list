@@ -2,14 +2,14 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:todo_list/models/todo_model.dart';
-import 'package:todo_list/views/settings_screen.dart';
 import '../controllers/todo_provider.dart';
 
 class TodoListScreen extends ConsumerStatefulWidget {
-  const TodoListScreen({super.key});
+  final VoidCallback onSettingsPressed;
+
+  TodoListScreen({required this.onSettingsPressed});
 
   @override
   _TodoListScreenState createState() => _TodoListScreenState();
@@ -61,16 +61,13 @@ class _TodoListScreenState extends ConsumerState<TodoListScreen> {
     final completedTodos = todoList.where((todo) => todo.isCompleted).toList();
 
     return Scaffold(
-      extendBodyBehindAppBar: true,
       appBar: AppBar(
         title: Center(child: Text(formattedDate)),
         backgroundColor: Colors.transparent,
         elevation: 0, // 影をなくす
         leading: IconButton(
           icon: const Icon(Icons.settings),
-          onPressed: () {
-            context.go('/settings');
-          },
+          onPressed: widget.onSettingsPressed,
         ),
         actions: [
           IconButton(
@@ -160,32 +157,37 @@ class _TodoListScreenState extends ConsumerState<TodoListScreen> {
                       ),
                     ),
                   ),
-                  Center(
-                    child: Container(
-                      margin: const EdgeInsets.all(16.0), // 余白を追加してボタンを中心に配置
-                      child: TextButton.icon(
-                        onPressed: () {
-                          setState(() {
-                            showCompletedTasks = !showCompletedTasks;
-                          });
-                        },
-                        icon: Icon(
-                          showCompletedTasks ? Icons.arrow_drop_up : Icons.arrow_drop_down,
-                          color: showCompletedTasks ? Colors.lightBlueAccent : Colors.black,
-                        ),
-                        label: Text(
-                          showCompletedTasks ? '完了済みのタスクを隠す' : '完了済みのタスクを見る',
-                          style: TextStyle(
+                  Positioned(
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    child: Center(
+                      child: Container(
+                        margin: const EdgeInsets.all(16.0), // 余白を追加してボタンを中心に配置
+                        child: TextButton.icon(
+                          onPressed: () {
+                            setState(() {
+                              showCompletedTasks = !showCompletedTasks;
+                            });
+                          },
+                          icon: Icon(
+                            showCompletedTasks ? Icons.arrow_drop_up : Icons.arrow_drop_down,
                             color: showCompletedTasks ? Colors.lightBlueAccent : Colors.black,
                           ),
-                        ),
-                        style: TextButton.styleFrom(
-                          foregroundColor: Colors.white,
-                          padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0), // パディングを調整
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30.0), // ボタンを丸みを帯びた形に
+                          label: Text(
+                            showCompletedTasks ? '完了済みのタスクを隠す' : '完了済みのタスクを見る',
+                            style: TextStyle(
+                              color: showCompletedTasks ? Colors.lightBlueAccent : Colors.black,
+                            ),
                           ),
-                          side: const BorderSide(color: Colors.white), // ボタンの外枠を設定
+                          style: TextButton.styleFrom(
+                            foregroundColor: Colors.white,
+                            padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0), // パディングを調整
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30.0), // ボタンを丸みを帯びた形に
+                            ),
+                            side: const BorderSide(color: Colors.white), // ボタンの外枠を設定
+                          ),
                         ),
                       ),
                     ),
