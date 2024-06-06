@@ -17,7 +17,6 @@ class SettingsScreen extends ConsumerWidget {
           IconButton(
             icon: const Icon(Icons.home),
             onPressed: () {
-              print('ボタンが押されました。');
               onBackPressed();
             },
           )
