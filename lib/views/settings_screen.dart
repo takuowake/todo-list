@@ -13,6 +13,15 @@ class SettingsScreen extends ConsumerWidget {
       appBar: AppBar(
         title: Text('Settings'),
         backgroundColor: Colors.transparent,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.home),
+            onPressed: () {
+              print('ボタンが押されました。');
+              onBackPressed();
+            },
+          )
+        ],
       ),
       body: Container(
         decoration: BoxDecoration(
