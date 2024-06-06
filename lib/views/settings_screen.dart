@@ -9,12 +9,10 @@ class SettingsScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
         title: Text('Settings'),
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: onBackPressed,
-        ),
+        backgroundColor: Colors.transparent,
       ),
       body: Container(
         decoration: BoxDecoration(

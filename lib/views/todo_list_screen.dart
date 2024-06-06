@@ -61,6 +61,7 @@ class _TodoListScreenState extends ConsumerState<TodoListScreen> {
     final completedTodos = todoList.where((todo) => todo.isCompleted).toList();
 
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
         title: Center(child: Text(formattedDate)),
         backgroundColor: Colors.transparent,
