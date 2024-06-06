@@ -12,7 +12,7 @@ class _HomePageState extends State<HomePage> {
 
   void _goToSettings() {
     _pageController.animateToPage(
-      1,
+      0,
       duration: Duration(milliseconds: 300),
       curve: Curves.easeInOut,
     );
@@ -20,7 +20,7 @@ class _HomePageState extends State<HomePage> {
 
   void _goToTodoList() {
     _pageController.animateToPage(
-      0,
+      1,
       duration: Duration(milliseconds: 300),
       curve: Curves.easeInOut,
     );
