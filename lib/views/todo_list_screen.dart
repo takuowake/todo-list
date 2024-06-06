@@ -225,7 +225,7 @@ class _TodoListScreenState extends ConsumerState<TodoListScreen> {
                         child: Stack(
                           children: [
                             Image.asset(
-                              'assets/images/app_icon.png', // 背景画像のパスを指定
+                              'assets/images/completed_task_background.png', // 背景画像のパスを指定
                               fit: BoxFit.cover,
                               width: double.infinity,
                               height: double.infinity,

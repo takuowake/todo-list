@@ -72,6 +72,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/background.png
+    - assets/images/completed_task_background.png
     - assets/images/app_icon.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
