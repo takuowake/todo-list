@@ -31,8 +31,8 @@ class _HomePageState extends State<HomePage> {
     return PageView(
       controller: _pageController,
       children: [
-        TodoListScreen(onSettingsPressed: _goToSettings),
         SettingsScreen(onBackPressed: _goToTodoList),
+        TodoListScreen(onSettingsPressed: _goToSettings),
       ],
     );
   }
