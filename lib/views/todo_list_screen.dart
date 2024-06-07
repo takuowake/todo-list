@@ -162,7 +162,7 @@ class _TodoListScreenState extends ConsumerState<TodoListScreen> {
               ),
             ),
             Positioned(
-              bottom: 50,
+              bottom: 30,
               left: 0,
               right: 0,
               child: Center(
