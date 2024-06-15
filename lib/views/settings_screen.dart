@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todo_list/views/privacy_policy_screen.dart';
+import 'package:todo_list/views/terms_of_service_screen.dart';
 
 class SettingsScreen extends ConsumerWidget {
   final VoidCallback onBackPressed;
@@ -35,7 +36,10 @@ class SettingsScreen extends ConsumerWidget {
             ListTile(
               title: Text('利用規約'),
               onTap: () {
-                // 利用規約画面に遷移するロジックを追加
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => TermsOfServiceScreen()),
+                );
               },
             ),
             ListTile(
