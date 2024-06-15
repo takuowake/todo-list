@@ -10,7 +10,7 @@ class PrivacyPolicyScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Privacy Policy'),
+        title: Text('プライバシーポリシー'),
       ),
       body: FutureBuilder(
         future: _loadHtmlFromAssets(context),
@@ -32,8 +32,7 @@ class PrivacyPolicyScreen extends ConsumerWidget {
       ),
     );
   }
-
   Future<String> _loadHtmlFromAssets(BuildContext context) async {
-    return await DefaultAssetBundle.of(context).loadString('assets/privacy_policy.html');
+    return await DefaultAssetBundle.of(context).loadString('assets/documents/privacy_policy.html');
   }
 }
