@@ -52,12 +52,6 @@ class SettingsScreen extends ConsumerWidget {
               },
             ),
             ListTile(
-              title: Text('チュートリアル'),
-              onTap: () {
-                // チュートリアル画面に遷移するロジックを追加
-              },
-            ),
-            ListTile(
               title: Text('お問い合わせ'),
               onTap: () {
                 // お問い合わせ画面に遷移するロジックを追加
