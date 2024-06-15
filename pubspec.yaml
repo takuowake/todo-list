@@ -33,6 +33,7 @@ dependencies:
   flutter_riverpod: ^2.5.1
   shared_preferences: ^2.2.3
   flutter_local_notifications: ^17.1.2
+  webview_flutter: ^4.8.0
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -74,6 +75,7 @@ flutter:
     - assets/images/background.png
     - assets/images/completed_task_background.png
     - assets/images/app_icon.png
+    - assets/terms
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

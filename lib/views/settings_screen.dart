@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:todo_list/views/privacy_policy_screen.dart';
 
 class SettingsScreen extends ConsumerWidget {
   final VoidCallback onBackPressed;
@@ -40,7 +41,10 @@ class SettingsScreen extends ConsumerWidget {
             ListTile(
               title: Text('プライバシーポリシー'),
               onTap: () {
-                // プライバシーポリシー画面に遷移するロジックを追加
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => PrivacyPolicyScreen()),
+                );
               },
             ),
             ListTile(
