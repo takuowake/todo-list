@@ -75,7 +75,8 @@ flutter:
     - assets/images/background.png
     - assets/images/completed_task_background.png
     - assets/images/app_icon.png
-    - assets/terms
+    - assets/documents/terms_of_service.html
+    - assets/documents/privacy_policy.html
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
