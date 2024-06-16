@@ -26,7 +26,7 @@ class SettingsScreen extends ConsumerWidget {
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/images/background.png'), // 背景画像のパス
+            image: AssetImage('assets/images/background.png'),
             fit: BoxFit.cover,
           ),
         ),
