@@ -65,7 +65,7 @@ class _TodoListScreenState extends ConsumerState<TodoListScreen> {
       appBar: AppBar(
         title: Center(child: Text(formattedDate)),
         backgroundColor: Colors.transparent,
-        elevation: 0, // 影をなくす
+        elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.settings),
           onPressed: widget.onSettingsPressed,
@@ -94,7 +94,7 @@ class _TodoListScreenState extends ConsumerState<TodoListScreen> {
             Container(
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage('assets/images/background.png'), // 背景画像のパス
+                  image: AssetImage('assets/images/background.png'),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -167,7 +167,7 @@ class _TodoListScreenState extends ConsumerState<TodoListScreen> {
               right: 0,
               child: Center(
                 child: Container(
-                  margin: const EdgeInsets.all(16.0), // 余白を追加してボタンを中心に配置
+                  margin: const EdgeInsets.all(16.0),
                   child: TextButton.icon(
                     onPressed: () {
                       setState(() {
@@ -186,11 +186,11 @@ class _TodoListScreenState extends ConsumerState<TodoListScreen> {
                     ),
                     style: TextButton.styleFrom(
                       foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0), // パディングを調整
+                      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30.0), // ボタンを丸みを帯びた形に
+                        borderRadius: BorderRadius.circular(30.0),
                       ),
-                      side: const BorderSide(color: Colors.white), // ボタンの外枠を設定
+                      side: const BorderSide(color: Colors.white),
                     ),
                   ),
                 ),
@@ -225,7 +225,7 @@ class _TodoListScreenState extends ConsumerState<TodoListScreen> {
                         child: Stack(
                           children: [
                             Image.asset(
-                              'assets/images/completed_task_background.png', // 背景画像のパスを指定
+                              'assets/images/completed_task_background.png',
                               fit: BoxFit.cover,
                               width: double.infinity,
                               height: double.infinity,
@@ -233,9 +233,9 @@ class _TodoListScreenState extends ConsumerState<TodoListScreen> {
                             Container(
                               decoration: BoxDecoration(
                                 color: Colors.white.withOpacity(0.8), // 背景の白い色も透けるようにする
-                                borderRadius: BorderRadius.circular(20), // ボーダーの丸みを増やす
+                                borderRadius: BorderRadius.circular(20),
                               ),
-                              padding: const EdgeInsets.all(8.0), // パディングを追加
+                              padding: const EdgeInsets.all(8.0),
                               child: ListView.builder(
                                 itemCount: completedTodos.length,
                                 itemBuilder: (context, index) {
