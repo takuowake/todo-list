@@ -13,7 +13,6 @@ class SettingsScreen extends ConsumerWidget {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        title: Text('Settings'),
         backgroundColor: Colors.transparent,
         actions: [
           IconButton(
