@@ -179,7 +179,7 @@ class _TodoListScreenState extends ConsumerState<TodoListScreen> {
                       color: showCompletedTasks ? Colors.lightBlueAccent : Colors.black,
                     ),
                     label: Text(
-                      showCompletedTasks ? '完了済みのタスクを隠す' : '完了済みのタスクを見る',
+                      showCompletedTasks ? '完了済みの目標を隠す' : '完了済みの目標を見る',
                       style: TextStyle(
                         color: showCompletedTasks ? Colors.lightBlueAccent : Colors.black,
                       ),
@@ -302,7 +302,7 @@ class _TodoListScreenState extends ConsumerState<TodoListScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('ToDoを追加'),
+          title: const Text('目標を追加'),
           content: TextField(
             controller: textController,
             autofocus: true,
@@ -342,7 +342,7 @@ class _TodoListScreenState extends ConsumerState<TodoListScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('ToDoを編集'),
+          title: const Text('目標を編集'),
           content: TextField(
             controller: textController,
             autofocus: true,
@@ -373,7 +373,7 @@ class _TodoListScreenState extends ConsumerState<TodoListScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('ToDoを削除'),
+          title: const Text('目標を削除'),
           actions: [
             TextButton(
               onPressed: () {
@@ -399,7 +399,7 @@ class _TodoListScreenState extends ConsumerState<TodoListScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('このToDoを戻しますか？'),
+          title: const Text('この目標を戻しますか？'),
           actions: [
             TextButton(
               onPressed: () {
