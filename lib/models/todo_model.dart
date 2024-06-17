@@ -1,13 +1,13 @@
 import 'dart:convert';
 
-class Todo {
+class Goal {
   final String id;
   final String title;
   final DateTime createdTime;
   final DateTime updatedTime;
   final bool isCompleted;
 
-  Todo({
+  Goal({
     required this.id,
     required this.title,
     required this.createdTime,
@@ -15,8 +15,8 @@ class Todo {
     this.isCompleted = false,
   });
 
-  Todo copyWith({String? title, DateTime? updatedTime, bool? isCompleted}) {
-    return Todo(
+  Goal copyWith({String? title, DateTime? updatedTime, bool? isCompleted}) {
+    return Goal(
       id: id,
       title: title ?? this.title,
       createdTime: createdTime,
@@ -35,8 +35,8 @@ class Todo {
     };
   }
 
-  static Todo fromJson(Map<String, dynamic> json) {
-    return Todo(
+  static Goal fromJson(Map<String, dynamic> json) {
+    return Goal(
       id: json['id'],
       title: json['title'],
       createdTime: DateTime.parse(json['createdTime']),

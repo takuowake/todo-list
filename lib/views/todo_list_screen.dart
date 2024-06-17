@@ -6,16 +6,16 @@ import 'package:intl/intl.dart';
 import 'package:todo_list/models/todo_model.dart';
 import '../controllers/todo_provider.dart';
 
-class TodoListScreen extends ConsumerStatefulWidget {
+class GoalListScreen extends ConsumerStatefulWidget {
   final VoidCallback onSettingsPressed;
 
-  TodoListScreen({required this.onSettingsPressed});
+  GoalListScreen({required this.onSettingsPressed});
 
   @override
-  _TodoListScreenState createState() => _TodoListScreenState();
+  _GoalListScreenState createState() => _GoalListScreenState();
 }
 
-class _TodoListScreenState extends ConsumerState<TodoListScreen> {
+class _GoalListScreenState extends ConsumerState<GoalListScreen> {
   bool showCompletedTasks = false;
   late Timer _timer;
 
@@ -57,8 +57,8 @@ class _TodoListScreenState extends ConsumerState<TodoListScreen> {
     final now = DateTime.now();
     final formattedDate = DateFormat('yyyy/MM/dd').format(now);
 
-    final incompleteTodos = goalList.where((todo) => !todo.isCompleted).toList();
-    final completedTodos = goalList.where((todo) => todo.isCompleted).toList();
+    final incompleteGoals = goalList.where((todo) => !todo.isCompleted).toList();
+    final completedGoals = goalList.where((todo) => todo.isCompleted).toList();
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -75,7 +75,7 @@ class _TodoListScreenState extends ConsumerState<TodoListScreen> {
             icon: const Icon(Icons.add),
             color: Colors.black,
             onPressed: () {
-              _promptAddTodo(context, ref);
+              _promptAddGoal(context, ref);
             },
             tooltip: 'Add Task',
           ),
@@ -106,9 +106,9 @@ class _TodoListScreenState extends ConsumerState<TodoListScreen> {
                     child: Padding(
                       padding: const EdgeInsets.only(bottom: 80.0),
                       child: ListView.builder(
-                        itemCount: incompleteTodos.length,
+                        itemCount: incompleteGoals.length,
                         itemBuilder: (context, index) {
-                          final todo = incompleteTodos[index];
+                          final todo = incompleteGoals[index];
                           final isEditable = DateTime.now().difference(todo.updatedTime).inHours < 24;
                           return Container(
                             margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
@@ -132,7 +132,7 @@ class _TodoListScreenState extends ConsumerState<TodoListScreen> {
                                     IconButton(
                                       icon: const Icon(Icons.edit),
                                       onPressed: () {
-                                        _promptEditTodo(context, ref, todo.id, todo.title);
+                                        _promptEditGoal(context, ref, todo.id, todo.title);
                                       },
                                     ),
                                   IconButton(
@@ -237,9 +237,9 @@ class _TodoListScreenState extends ConsumerState<TodoListScreen> {
                               ),
                               padding: const EdgeInsets.all(8.0),
                               child: ListView.builder(
-                                itemCount: completedTodos.length,
+                                itemCount: completedGoals.length,
                                 itemBuilder: (context, index) {
-                                  final todo = completedTodos[index];
+                                  final todo = completedGoals[index];
                                   return Container(
                                     margin: const EdgeInsets.symmetric(vertical: 5), // アイテム間にスペースを追加
                                     decoration: BoxDecoration(
@@ -296,7 +296,7 @@ class _TodoListScreenState extends ConsumerState<TodoListScreen> {
     );
   }
 
-  void _promptAddTodo(BuildContext context, WidgetRef ref) {
+  void _promptAddGoal(BuildContext context, WidgetRef ref) {
     final textController = TextEditingController();
     showDialog(
       context: context,
@@ -318,13 +318,13 @@ class _TodoListScreenState extends ConsumerState<TodoListScreen> {
             ),
             TextButton(
               onPressed: () {
-                final newTodo = Todo(
+                final newGoal = Goal(
                   id: UniqueKey().toString(),
                   title: textController.text,
                   createdTime: DateTime.now(),
                   updatedTime: DateTime.now(),
                 );
-                ref.read(goalListProvider.notifier).add(newTodo);
+                ref.read(goalListProvider.notifier).add(newGoal);
                 textController.clear();
                 Navigator.of(context).pop();
               },
@@ -336,7 +336,7 @@ class _TodoListScreenState extends ConsumerState<TodoListScreen> {
     );
   }
 
-  void _promptEditTodo(BuildContext context, WidgetRef ref, String id, String currentTitle) {
+  void _promptEditGoal(BuildContext context, WidgetRef ref, String id, String currentTitle) {
     final textController = TextEditingController(text: currentTitle);
     showDialog(
       context: context,

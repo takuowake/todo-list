@@ -18,7 +18,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  void _goToTodoList() {
+  void _goToGoalList() {
     _pageController.animateToPage(
       1,
       duration: Duration(milliseconds: 300),
@@ -31,8 +31,8 @@ class _HomePageState extends State<HomePage> {
     return PageView(
       controller: _pageController,
       children: [
-        SettingsScreen(onBackPressed: _goToTodoList),
-        TodoListScreen(onSettingsPressed: _goToSettings),
+        SettingsScreen(onBackPressed: _goToGoalList),
+        GoalListScreen(onSettingsPressed: _goToSettings),
       ],
     );
   }
