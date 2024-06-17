@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:todo_list/models/todo_model.dart';
-import '../controllers/todo_provider.dart';
+import 'package:todo_list/models/goal_model.dart';
+import '../controllers/goal_provider.dart';
 
 class GoalListScreen extends ConsumerStatefulWidget {
   final VoidCallback onSettingsPressed;
@@ -225,7 +225,7 @@ class _GoalListScreenState extends ConsumerState<GoalListScreen> {
                         child: Stack(
                           children: [
                             Image.asset(
-                              'assets/images/completed_task_background.png',
+                              'assets/images/completed_goal_background.png',
                               fit: BoxFit.cover,
                               width: double.infinity,
                               height: double.infinity,
