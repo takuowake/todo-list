@@ -306,7 +306,7 @@ class _GoalListScreenState extends ConsumerState<GoalListScreen> {
           content: TextField(
             controller: textController,
             autofocus: true,
-            decoration: const InputDecoration(labelText: 'ToDo'),
+            decoration: const InputDecoration(labelText: '目標'),
             maxLines: null,
           ),
           actions: [
