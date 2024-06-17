@@ -16,14 +16,14 @@ class GoalListController extends StateNotifier<List<Goal>> {
     _loadGoals();
   }
 
-  void add(Goal todo) {
-    state = [...state, todo];
+  void add(Goal goal) {
+    state = [...state, goal];
     _saveGoals();
-    _scheduleDeletion(todo);
+    _scheduleDeletion(goal);
   }
 
   void remove(String id) {
-    state = state.where((todo) => todo.id != id).toList();
+    state = state.where((goal) => goal.id != id).toList();
     _saveGoals();
     _timers[id]?.cancel();
     _timers.remove(id);
@@ -31,61 +31,61 @@ class GoalListController extends StateNotifier<List<Goal>> {
 
   void toggleComplete(String id) {
     state = [
-      for (final todo in state)
-        if (todo.id == id)
-          todo.copyWith(isCompleted: !todo.isCompleted)
+      for (final goal in state)
+        if (goal.id == id)
+          goal.copyWith(isCompleted: !goal.isCompleted)
         else
-          todo,
+          goal,
     ];
     _saveGoals();
   }
 
   void edit(String id, String newTitle) {
     final newList = [
-      for (final todo in state)
-        if (todo.id == id)
-          todo.copyWith(title: newTitle, updatedTime: DateTime.now())
+      for (final goal in state)
+        if (goal.id == id)
+          goal.copyWith(title: newTitle, updatedTime: DateTime.now())
         else
-          todo,
+          goal,
     ];
     state = newList;
     _saveGoals();
 
-    final editedGoal = newList.firstWhere((todo) => todo.id == id);
+    final editedGoal = newList.firstWhere((goal) => goal.id == id);
     _scheduleDeletion(editedGoal); // 編集時にタイマーをリセット
   }
 
   void _loadGoals() async {
     final prefs = await SharedPreferences.getInstance();
-    final goalList = prefs.getStringList('todos') ?? [];
-    state = goalList.map((todo) => Goal.fromJson(jsonDecode(todo))).toList();
+    final goalList = prefs.getStringList('goals') ?? [];
+    state = goalList.map((goal) => Goal.fromJson(jsonDecode(goal))).toList();
     _sortGoals();
-    for (var todo in state) {
-      if (DateTime.now().difference(todo.updatedTime).inHours < 24) {
-        _scheduleDeletion(todo);
+    for (var goal in state) {
+      if (DateTime.now().difference(goal.updatedTime).inHours < 24) {
+        _scheduleDeletion(goal);
       } else {
-        remove(todo.id); // 24時間を超えていたら直接削除
+        remove(goal.id); // 24時間を超えていたら直接削除
       }
     }
   }
 
   void _saveGoals() async {
     final prefs = await SharedPreferences.getInstance();
-    final goalList = state.map((todo) => jsonEncode(todo.toJson())).toList();
-    await prefs.setStringList('todos', goalList);
+    final goalList = state.map((goal) => jsonEncode(goal.toJson())).toList();
+    await prefs.setStringList('goals', goalList);
   }
 
   void _sortGoals() {
     state = [
-      ...state.where((todo) => !todo.isCompleted && DateTime.now().difference(todo.createdTime).inHours < 24),
-      ...state.where((todo) => !todo.isCompleted && DateTime.now().difference(todo.createdTime).inHours >= 24),
-      ...state.where((todo) => todo.isCompleted),
+      ...state.where((goal) => !goal.isCompleted && DateTime.now().difference(goal.createdTime).inHours < 24),
+      ...state.where((goal) => !goal.isCompleted && DateTime.now().difference(goal.createdTime).inHours >= 24),
+      ...state.where((goal) => goal.isCompleted),
     ];
   }
 
-  void _scheduleDeletion(Goal todo) {
-    _timers[todo.id]?.cancel(); // 既存のタイマーをキャンセル
-    var timer = Timer(Duration(hours: 24 - DateTime.now().difference(todo.updatedTime).inHours), () => remove(todo.id));
-    _timers[todo.id] = timer;
+  void _scheduleDeletion(Goal goal) {
+    _timers[goal.id]?.cancel(); // 既存のタイマーをキャンセル
+    var timer = Timer(Duration(hours: 24 - DateTime.now().difference(goal.updatedTime).inHours), () => remove(goal.id));
+    _timers[goal.id] = timer;
   }
 }

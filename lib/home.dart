@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:todo_list/views/settings_screen.dart';
-import 'package:todo_list/views/goal_list_screen.dart';
+import 'package:goal_list/views/settings_screen.dart';
+import 'package:goal_list/views/goal_list_screen.dart';
 
 class HomePage extends StatefulWidget {
   @override

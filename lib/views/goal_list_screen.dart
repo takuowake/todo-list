@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:todo_list/models/goal_model.dart';
+import 'package:goal_list/models/goal_model.dart';
 import '../controllers/goal_provider.dart';
 
 class GoalListScreen extends ConsumerStatefulWidget {
@@ -57,8 +57,8 @@ class _GoalListScreenState extends ConsumerState<GoalListScreen> {
     final now = DateTime.now();
     final formattedDate = DateFormat('yyyy/MM/dd').format(now);
 
-    final incompleteGoals = goalList.where((todo) => !todo.isCompleted).toList();
-    final completedGoals = goalList.where((todo) => todo.isCompleted).toList();
+    final incompleteGoals = goalList.where((goal) => !goal.isCompleted).toList();
+    final completedGoals = goalList.where((goal) => goal.isCompleted).toList();
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -108,8 +108,8 @@ class _GoalListScreenState extends ConsumerState<GoalListScreen> {
                       child: ListView.builder(
                         itemCount: incompleteGoals.length,
                         itemBuilder: (context, index) {
-                          final todo = incompleteGoals[index];
-                          final isEditable = DateTime.now().difference(todo.updatedTime).inHours < 24;
+                          final goal = incompleteGoals[index];
+                          final isEditable = DateTime.now().difference(goal.updatedTime).inHours < 24;
                           return Container(
                             margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                             padding: const EdgeInsets.all(8.0),
@@ -119,12 +119,12 @@ class _GoalListScreenState extends ConsumerState<GoalListScreen> {
                             ),
                             child: ListTile(
                               title: Text(
-                                todo.title,
+                                goal.title,
                                 style: TextStyle(
-                                  decoration: todo.isCompleted ? TextDecoration.lineThrough : null,
+                                  decoration: goal.isCompleted ? TextDecoration.lineThrough : null,
                                 ),
                               ),
-                              subtitle: Text('残り: ${_formatRemainingTime(todo.updatedTime)}'),
+                              subtitle: Text('残り: ${_formatRemainingTime(goal.updatedTime)}'),
                               trailing: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
@@ -132,25 +132,25 @@ class _GoalListScreenState extends ConsumerState<GoalListScreen> {
                                     IconButton(
                                       icon: const Icon(Icons.edit),
                                       onPressed: () {
-                                        _promptEditGoal(context, ref, todo.id, todo.title);
+                                        _promptEditGoal(context, ref, goal.id, goal.title);
                                       },
                                     ),
                                   IconButton(
-                                    icon: Icon(todo.isCompleted ? Icons.check_box : Icons.check_box_outline_blank),
+                                    icon: Icon(goal.isCompleted ? Icons.check_box : Icons.check_box_outline_blank),
                                     onPressed: () {
-                                      ref.read(goalListProvider.notifier).toggleComplete(todo.id);
+                                      ref.read(goalListProvider.notifier).toggleComplete(goal.id);
                                     },
                                   ),
                                   IconButton(
                                     icon: const Icon(Icons.delete),
                                     onPressed: () {
-                                      _showDeleteDialog(context, ref, todo.id);
+                                      _showDeleteDialog(context, ref, goal.id);
                                     },
                                   ),
                                 ],
                               ),
                               onTap: () {
-                                ref.read(goalListProvider.notifier).toggleComplete(todo.id);
+                                ref.read(goalListProvider.notifier).toggleComplete(goal.id);
                               },
                             ),
                           );
@@ -239,7 +239,7 @@ class _GoalListScreenState extends ConsumerState<GoalListScreen> {
                               child: ListView.builder(
                                 itemCount: completedGoals.length,
                                 itemBuilder: (context, index) {
-                                  final todo = completedGoals[index];
+                                  final goal = completedGoals[index];
                                   return Container(
                                     margin: const EdgeInsets.symmetric(vertical: 5), // アイテム間にスペースを追加
                                     decoration: BoxDecoration(
@@ -256,7 +256,7 @@ class _GoalListScreenState extends ConsumerState<GoalListScreen> {
                                     ),
                                     child: ListTile(
                                       title: Text(
-                                        todo.title,
+                                        goal.title,
                                         style: const TextStyle(
                                           decoration: TextDecoration.lineThrough,
                                         ),
@@ -267,13 +267,13 @@ class _GoalListScreenState extends ConsumerState<GoalListScreen> {
                                           IconButton(
                                             icon: const Icon(Icons.reply),
                                             onPressed: () {
-                                              _showRestoreDialog(context, ref, todo.id);
+                                              _showRestoreDialog(context, ref, goal.id);
                                             },
                                           ),
                                           IconButton(
                                             icon: const Icon(Icons.delete),
                                             onPressed: () {
-                                              _showDeleteDialog(context, ref, todo.id);
+                                              _showDeleteDialog(context, ref, goal.id);
                                             },
                                           ),
                                         ],
@@ -368,7 +368,7 @@ class _GoalListScreenState extends ConsumerState<GoalListScreen> {
     );
   }
 
-  void _showDeleteDialog(BuildContext context, WidgetRef ref, String todoId) {
+  void _showDeleteDialog(BuildContext context, WidgetRef ref, String goalId) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -377,7 +377,7 @@ class _GoalListScreenState extends ConsumerState<GoalListScreen> {
           actions: [
             TextButton(
               onPressed: () {
-                ref.read(goalListProvider.notifier).remove(todoId);
+                ref.read(goalListProvider.notifier).remove(goalId);
                 Navigator.of(context).pop();
               },
               child: const Text('削除する'),
@@ -394,7 +394,7 @@ class _GoalListScreenState extends ConsumerState<GoalListScreen> {
     );
   }
 
-  void _showRestoreDialog(BuildContext context, WidgetRef ref, String todoId) {
+  void _showRestoreDialog(BuildContext context, WidgetRef ref, String goalId) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -403,7 +403,7 @@ class _GoalListScreenState extends ConsumerState<GoalListScreen> {
           actions: [
             TextButton(
               onPressed: () {
-                ref.read(goalListProvider.notifier).toggleComplete(todoId);
+                ref.read(goalListProvider.notifier).toggleComplete(goalId);
                 Navigator.of(context).pop();
               },
               child: const Text('はい'),
