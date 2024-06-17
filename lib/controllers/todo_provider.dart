@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/todo_model.dart';
 
-final todoListProvider = StateNotifierProvider<TodoListController, List<Todo>>((ref) {
+final goalListProvider = StateNotifierProvider<TodoListController, List<Todo>>((ref) {
   return TodoListController();
 });
 
@@ -57,8 +57,8 @@ class TodoListController extends StateNotifier<List<Todo>> {
 
   void _loadTodos() async {
     final prefs = await SharedPreferences.getInstance();
-    final todoList = prefs.getStringList('todos') ?? [];
-    state = todoList.map((todo) => Todo.fromJson(jsonDecode(todo))).toList();
+    final goalList = prefs.getStringList('todos') ?? [];
+    state = goalList.map((todo) => Todo.fromJson(jsonDecode(todo))).toList();
     _sortTodos();
     for (var todo in state) {
       if (DateTime.now().difference(todo.updatedTime).inHours < 24) {
@@ -71,8 +71,8 @@ class TodoListController extends StateNotifier<List<Todo>> {
 
   void _saveTodos() async {
     final prefs = await SharedPreferences.getInstance();
-    final todoList = state.map((todo) => jsonEncode(todo.toJson())).toList();
-    await prefs.setStringList('todos', todoList);
+    final goalList = state.map((todo) => jsonEncode(todo.toJson())).toList();
+    await prefs.setStringList('todos', goalList);
   }
 
   void _sortTodos() {

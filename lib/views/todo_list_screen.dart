@@ -53,12 +53,12 @@ class _TodoListScreenState extends ConsumerState<TodoListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final todoList = ref.watch(todoListProvider);
+    final goalList = ref.watch(goalListProvider);
     final now = DateTime.now();
     final formattedDate = DateFormat('yyyy/MM/dd').format(now);
 
-    final incompleteTodos = todoList.where((todo) => !todo.isCompleted).toList();
-    final completedTodos = todoList.where((todo) => todo.isCompleted).toList();
+    final incompleteTodos = goalList.where((todo) => !todo.isCompleted).toList();
+    final completedTodos = goalList.where((todo) => todo.isCompleted).toList();
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -138,7 +138,7 @@ class _TodoListScreenState extends ConsumerState<TodoListScreen> {
                                   IconButton(
                                     icon: Icon(todo.isCompleted ? Icons.check_box : Icons.check_box_outline_blank),
                                     onPressed: () {
-                                      ref.read(todoListProvider.notifier).toggleComplete(todo.id);
+                                      ref.read(goalListProvider.notifier).toggleComplete(todo.id);
                                     },
                                   ),
                                   IconButton(
@@ -150,7 +150,7 @@ class _TodoListScreenState extends ConsumerState<TodoListScreen> {
                                 ],
                               ),
                               onTap: () {
-                                ref.read(todoListProvider.notifier).toggleComplete(todo.id);
+                                ref.read(goalListProvider.notifier).toggleComplete(todo.id);
                               },
                             ),
                           );
@@ -324,7 +324,7 @@ class _TodoListScreenState extends ConsumerState<TodoListScreen> {
                   createdTime: DateTime.now(),
                   updatedTime: DateTime.now(),
                 );
-                ref.read(todoListProvider.notifier).add(newTodo);
+                ref.read(goalListProvider.notifier).add(newTodo);
                 textController.clear();
                 Navigator.of(context).pop();
               },
@@ -357,7 +357,7 @@ class _TodoListScreenState extends ConsumerState<TodoListScreen> {
             ),
             TextButton(
               onPressed: () {
-                ref.read(todoListProvider.notifier).edit(id, textController.text);
+                ref.read(goalListProvider.notifier).edit(id, textController.text);
                 Navigator.of(context).pop();
               },
               child: const Text('保存する'),
@@ -377,7 +377,7 @@ class _TodoListScreenState extends ConsumerState<TodoListScreen> {
           actions: [
             TextButton(
               onPressed: () {
-                ref.read(todoListProvider.notifier).remove(todoId);
+                ref.read(goalListProvider.notifier).remove(todoId);
                 Navigator.of(context).pop();
               },
               child: const Text('削除する'),
@@ -403,7 +403,7 @@ class _TodoListScreenState extends ConsumerState<TodoListScreen> {
           actions: [
             TextButton(
               onPressed: () {
-                ref.read(todoListProvider.notifier).toggleComplete(todoId);
+                ref.read(goalListProvider.notifier).toggleComplete(todoId);
                 Navigator.of(context).pop();
               },
               child: const Text('はい'),
