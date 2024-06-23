@@ -48,7 +48,7 @@ class GoalListController extends StateNotifier<List<Goal>> {
     _saveGoals();
     final toggledGoal = state.firstWhere((goal) => goal.id == id);
     if (toggledGoal.isCompleted) {
-      ref.read(pastGoalsProvider.notifier).add(toggledGoal);
+      _scheduleDeletion(toggledGoal);  // 完了済みにした後、24時間後に削除するようにスケジュール
     }
   }
 
@@ -73,7 +73,10 @@ class GoalListController extends StateNotifier<List<Goal>> {
     state = goalList.map((goal) => Goal.fromJson(jsonDecode(goal))).toList();
     _sortGoals();
     for (var goal in state) {
-      if (DateTime.now().difference(goal.updatedTime).inHours < 24) {
+      final duration = goal.isCompleted
+          ? 24 - DateTime.now().difference(goal.completionDate!).inHours
+          : 24 - DateTime.now().difference(goal.updatedTime).inHours;
+      if (duration > 0) {
         _scheduleDeletion(goal);
       } else {
         remove(goal.id); // 24時間を超えていたら直接削除
@@ -97,15 +100,21 @@ class GoalListController extends StateNotifier<List<Goal>> {
 
   void _scheduleDeletion(Goal goal) {
     _timers[goal.id]?.cancel(); // 既存のタイマーをキャンセル
-    var timer = Timer(Duration(hours: 24 - DateTime.now().difference(goal.updatedTime).inHours), () => remove(goal.id));
+    final duration = goal.isCompleted
+        ? Duration(hours: 24 - DateTime.now().difference(goal.completionDate!).inHours)
+        : Duration(hours: 24 - DateTime.now().difference(goal.updatedTime).inHours);
+    var timer = Timer(duration, () {
+      remove(goal.id);
+      if (goal.isCompleted) {
+        ref.read(pastGoalsProvider.notifier).add(goal);
+      }
+    });
     _timers[goal.id] = timer;
   }
 }
 
 class PastGoalsController extends StateNotifier<List<Goal>> {
-  PastGoalsController() : super([]) {
-    _loadPastGoals();
-  }
+  PastGoalsController() : super([]);
 
   void add(Goal goal) {
     state = [...state, goal];
