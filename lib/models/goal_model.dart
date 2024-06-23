@@ -24,6 +24,7 @@ class Goal {
       createdTime: createdTime,
       updatedTime: updatedTime ?? this.updatedTime,
       isCompleted: isCompleted ?? this.isCompleted,
+      completionDate: completionDate ?? this.completionDate,
     );
   }
 
