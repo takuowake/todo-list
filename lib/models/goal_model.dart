@@ -6,6 +6,7 @@ class Goal {
   final DateTime createdTime;
   final DateTime updatedTime;
   final bool isCompleted;
+  final DateTime? completionDate;
 
   Goal({
     required this.id,
@@ -13,6 +14,7 @@ class Goal {
     required this.createdTime,
     required this.updatedTime,
     this.isCompleted = false,
+    this.completionDate,
   });
 
   Goal copyWith({String? title, DateTime? updatedTime, bool? isCompleted}) {
