@@ -17,16 +17,19 @@ class PastGoalsScreen extends ConsumerWidget {
         itemCount: pastGoals.length,
         itemBuilder: (context, index) {
           final goal = pastGoals[index];
-          return ListTile(
-            title: Text(goal.title),
-            subtitle: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text('作成日: ${DateFormat('yyyy/MM/dd').format(goal.createdTime)}'),
-                Text('完了日: ${goal.completionDate != null ? DateFormat('yyyy/MM/dd').format(goal.completionDate!) : '未完了'}'),
-              ],
+          return Card(
+            margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            child: ListTile(
+              title: Text(goal.title),
+              subtitle: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('作成日: ${DateFormat('yyyy/MM/dd').format(goal.createdTime)}'),
+                  Text('完了日: ${goal.completionDate != null ? DateFormat('yyyy/MM/dd').format(goal.completionDate!) : '未完了'}'),
+                ],
+              ),
+              trailing: Icon(goal.isCompleted ? Icons.check_circle : Icons.cancel),
             ),
-            trailing: Icon(goal.isCompleted ? Icons.check_circle : Icons.cancel),
           );
         },
       ),
