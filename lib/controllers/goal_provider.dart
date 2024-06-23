@@ -6,13 +6,18 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../models/goal_model.dart';
 
 final goalListProvider = StateNotifierProvider<GoalListController, List<Goal>>((ref) {
-  return GoalListController();
+  return GoalListController(ref);
+});
+
+final pastGoalsProvider = StateNotifierProvider<PastGoalsController, List<Goal>>((ref) {
+  return PastGoalsController();
 });
 
 class GoalListController extends StateNotifier<List<Goal>> {
+  final StateNotifierProviderRef<GoalListController, List<Goal>> ref;
   Map<String, Timer> _timers = {};
 
-  GoalListController() : super([]) {
+  GoalListController(this.ref) : super([]) {
     _loadGoals();
   }
 
@@ -33,11 +38,18 @@ class GoalListController extends StateNotifier<List<Goal>> {
     state = [
       for (final goal in state)
         if (goal.id == id)
-          goal.copyWith(isCompleted: !goal.isCompleted)
+          goal.copyWith(
+            isCompleted: !goal.isCompleted,
+            completionDate: !goal.isCompleted ? DateTime.now() : null,
+          )
         else
           goal,
     ];
     _saveGoals();
+    final toggledGoal = state.firstWhere((goal) => goal.id == id);
+    if (toggledGoal.isCompleted) {
+      ref.read(pastGoalsProvider.notifier).add(toggledGoal);
+    }
   }
 
   void edit(String id, String newTitle) {
@@ -87,5 +99,33 @@ class GoalListController extends StateNotifier<List<Goal>> {
     _timers[goal.id]?.cancel(); // 既存のタイマーをキャンセル
     var timer = Timer(Duration(hours: 24 - DateTime.now().difference(goal.updatedTime).inHours), () => remove(goal.id));
     _timers[goal.id] = timer;
+  }
+}
+
+class PastGoalsController extends StateNotifier<List<Goal>> {
+  PastGoalsController() : super([]) {
+    _loadPastGoals();
+  }
+
+  void add(Goal goal) {
+    state = [...state, goal];
+    _savePastGoals();
+  }
+
+  void remove(String id) {
+    state = state.where((goal) => goal.id != id).toList();
+    _savePastGoals();
+  }
+
+  void _loadPastGoals() async {
+    final prefs = await SharedPreferences.getInstance();
+    final goalList = prefs.getStringList('past_goals') ?? [];
+    state = goalList.map((goal) => Goal.fromJson(jsonDecode(goal))).toList();
+  }
+
+  void _savePastGoals() async {
+    final prefs = await SharedPreferences.getInstance();
+    final goalList = state.map((goal) => jsonEncode(goal.toJson())).toList();
+    await prefs.setStringList('past_goals', goalList);
   }
 }
