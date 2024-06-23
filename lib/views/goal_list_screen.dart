@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -104,8 +103,9 @@ class _GoalListScreenState extends ConsumerState<GoalListScreen> {
                 children: [
                   Expanded(
                     child: Padding(
-                      padding: const EdgeInsets.only(bottom: 80.0),
+                      padding: const EdgeInsets.only(bottom: 8.0),
                       child: ListView.builder(
+                        key: ValueKey(showCompletedTasks), // Add this line
                         itemCount: incompleteGoals.length,
                         itemBuilder: (context, index) {
                           final goal = incompleteGoals[index];
@@ -118,6 +118,7 @@ class _GoalListScreenState extends ConsumerState<GoalListScreen> {
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: ListTile(
+                              key: ValueKey(goal.id), // Add this line
                               title: Text(
                                 goal.title,
                                 style: TextStyle(
@@ -255,6 +256,7 @@ class _GoalListScreenState extends ConsumerState<GoalListScreen> {
                                       ],
                                     ),
                                     child: ListTile(
+                                      key: ValueKey(goal.id), // Add this line
                                       title: Text(
                                         goal.title,
                                         style: const TextStyle(
