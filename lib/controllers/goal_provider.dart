@@ -48,7 +48,7 @@ class GoalListController extends StateNotifier<List<Goal>> {
     _saveGoals();
     final toggledGoal = state.firstWhere((goal) => goal.id == id);
     if (toggledGoal.isCompleted) {
-      _scheduleDeletion(toggledGoal);
+      _scheduleDeletion(toggledGoal);  // 完了済みにした後、1分後に削除するようにスケジュール
     }
   }
 
@@ -64,7 +64,7 @@ class GoalListController extends StateNotifier<List<Goal>> {
     _saveGoals();
 
     final editedGoal = newList.firstWhere((goal) => goal.id == id);
-    _scheduleDeletion(editedGoal);
+    _scheduleDeletion(editedGoal); // 編集時にタイマーをリセット
   }
 
   void _loadGoals() async {
@@ -74,12 +74,12 @@ class GoalListController extends StateNotifier<List<Goal>> {
     _sortGoals();
     for (var goal in state) {
       final duration = goal.isCompleted
-          ? 24 - DateTime.now().difference(goal.completionDate!).inHours
-          : 24 - DateTime.now().difference(goal.updatedTime).inHours;
-      if (duration > 0) {
+          ? Duration(minutes: 1) - DateTime.now().difference(goal.completionDate!)
+          : Duration(minutes: 1) - DateTime.now().difference(goal.updatedTime);
+      if (duration > Duration.zero) {
         _scheduleDeletion(goal);
       } else {
-        remove(goal.id);
+        remove(goal.id); // 1分を超えていたら直接削除
       }
     }
   }
@@ -92,17 +92,17 @@ class GoalListController extends StateNotifier<List<Goal>> {
 
   void _sortGoals() {
     state = [
-      ...state.where((goal) => !goal.isCompleted && DateTime.now().difference(goal.createdTime).inHours < 24),
-      ...state.where((goal) => !goal.isCompleted && DateTime.now().difference(goal.createdTime).inHours >= 24),
+      ...state.where((goal) => !goal.isCompleted && DateTime.now().difference(goal.createdTime).inMinutes < 1),
+      ...state.where((goal) => !goal.isCompleted && DateTime.now().difference(goal.createdTime).inMinutes >= 1),
       ...state.where((goal) => goal.isCompleted),
     ];
   }
 
   void _scheduleDeletion(Goal goal) {
-    _timers[goal.id]?.cancel();
+    _timers[goal.id]?.cancel(); // 既存のタイマーをキャンセル
     final duration = goal.isCompleted
-        ? Duration(hours: 24 - DateTime.now().difference(goal.completionDate!).inHours)
-        : Duration(hours: 24 - DateTime.now().difference(goal.updatedTime).inHours);
+        ? Duration(minutes: 1) - DateTime.now().difference(goal.completionDate!)
+        : Duration(minutes: 1) - DateTime.now().difference(goal.updatedTime);
     var timer = Timer(duration, () {
       remove(goal.id);
       if (goal.isCompleted) {
