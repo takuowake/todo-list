@@ -208,7 +208,7 @@ class _GoalListScreenState extends ConsumerState<GoalListScreen> {
                   child: Center(
                     child: Container(
                       margin: const EdgeInsets.symmetric(horizontal: 16.0),
-                      height: MediaQuery.of(context).size.height * 0.4,
+                      height: MediaQuery.of(context).size.height * 0.4, // 高さを変更
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
                         boxShadow: [
