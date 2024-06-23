@@ -99,7 +99,7 @@ class GoalListController extends StateNotifier<List<Goal>> {
   }
 
   void _scheduleDeletion(Goal goal) {
-    _timers[goal.id]?.cancel(); // 既存のタイマーをキャンセル
+    _timers[goal.id]?.cancel();
     final duration = goal.isCompleted
         ? Duration(hours: 24 - DateTime.now().difference(goal.completionDate!).inHours)
         : Duration(hours: 24 - DateTime.now().difference(goal.updatedTime).inHours);
