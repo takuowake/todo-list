@@ -47,9 +47,7 @@ class GoalListController extends StateNotifier<List<Goal>> {
     ];
     _saveGoals();
     final toggledGoal = state.firstWhere((goal) => goal.id == id);
-    if (toggledGoal.isCompleted) {
-      _scheduleDeletion(toggledGoal);  // 完了済みにした後、1分後に削除するようにスケジュール
-    }
+    _scheduleDeletion(toggledGoal);  // 完了済みにした後、1分後に削除するようにスケジュール
   }
 
   void edit(String id, String newTitle) {
