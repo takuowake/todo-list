@@ -34,6 +34,15 @@ class SettingsScreen extends ConsumerWidget {
         child: ListView(
           children: [
             ListTile(
+              title: Text('過去の目標一覧'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ContactUsPage()),
+                );
+              },
+            ),
+            ListTile(
               title: Text('利用規約'),
               onTap: () {
                 Navigator.push(
