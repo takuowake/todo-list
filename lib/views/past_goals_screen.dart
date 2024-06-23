@@ -16,7 +16,7 @@ class PastGoalsScreen extends ConsumerWidget {
       ),
       body: GroupedListView<Goal, String>(
         elements: pastGoals,
-        groupBy: (goal) => DateFormat('yyyy/MM/dd').format(goal.completionDate ?? goal.createdTime),
+        groupBy: (goal) => DateFormat('yyyy/MM/dd').format(goal.completionDate ?? goal.updatedTime),
         groupSeparatorBuilder: (String groupByValue) => Padding(
           padding: const EdgeInsets.all(8.0),
           child: Text(
