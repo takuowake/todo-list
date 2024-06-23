@@ -17,7 +17,7 @@ class Goal {
     this.completionDate,
   });
 
-  Goal copyWith({String? title, DateTime? updatedTime, bool? isCompleted}) {
+  Goal copyWith({String? title, DateTime? updatedTime, bool? isCompleted, DateTime? completionDate}) {
     return Goal(
       id: id,
       title: title ?? this.title,
