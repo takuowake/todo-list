@@ -79,7 +79,7 @@ class GoalListController extends StateNotifier<List<Goal>> {
       if (duration > 0) {
         _scheduleDeletion(goal);
       } else {
-        remove(goal.id); // 24時間を超えていたら直接削除
+        remove(goal.id);
       }
     }
   }
