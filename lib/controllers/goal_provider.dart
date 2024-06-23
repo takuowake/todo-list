@@ -64,7 +64,7 @@ class GoalListController extends StateNotifier<List<Goal>> {
     _saveGoals();
 
     final editedGoal = newList.firstWhere((goal) => goal.id == id);
-    _scheduleDeletion(editedGoal); // 編集時にタイマーをリセット
+    _scheduleDeletion(editedGoal);
   }
 
   void _loadGoals() async {
