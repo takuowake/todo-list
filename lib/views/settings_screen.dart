@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:goal_list/views/contact_us_screen.dart';
 import 'package:goal_list/views/privacy_policy_screen.dart';
 import 'package:goal_list/views/terms_of_service_screen.dart';
 
@@ -53,7 +54,10 @@ class SettingsScreen extends ConsumerWidget {
             ListTile(
               title: Text('お問い合わせ'),
               onTap: () {
-                // お問い合わせ画面に遷移するロジックを追加
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ContactUsPage()),
+                );
               },
             ),
           ],
