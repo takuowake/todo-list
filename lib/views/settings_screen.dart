@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:goal_list/views/contact_us_screen.dart';
+import 'package:goal_list/views/past_goals_screen.dart';
 import 'package:goal_list/views/privacy_policy_screen.dart';
 import 'package:goal_list/views/terms_of_service_screen.dart';
 
@@ -38,7 +39,7 @@ class SettingsScreen extends ConsumerWidget {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => ContactUsPage()),
+                  MaterialPageRoute(builder: (context) => PastGoalsScreen()),
                 );
               },
             ),
