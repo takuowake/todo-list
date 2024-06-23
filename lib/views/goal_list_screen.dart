@@ -179,7 +179,7 @@ class _GoalListScreenState extends ConsumerState<GoalListScreen> {
                       color: showCompletedTasks ? Colors.lightBlueAccent : Colors.black,
                     ),
                     label: Text(
-                      showCompletedTasks ? '完了済みの目標を隠す' : '完了済みの目標を見る',
+                      showCompletedTasks ? '目標を隠す' : '24時間以内に設定した完了済みの目標を見る',
                       style: TextStyle(
                         color: showCompletedTasks ? Colors.lightBlueAccent : Colors.black,
                       ),
