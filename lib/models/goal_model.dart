@@ -46,6 +46,7 @@ class Goal {
       createdTime: DateTime.parse(json['createdTime']),
       updatedTime: DateTime.parse(json['updatedTime']),
       isCompleted: json['isCompleted'],
+      completionDate: json['completionDate'] != null ? DateTime.parse(json['completionDate']) : null,
     );
   }
 }
