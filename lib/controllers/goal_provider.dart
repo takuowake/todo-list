@@ -24,9 +24,7 @@ class GoalListController extends StateNotifier<List<Goal>> {
   void add(Goal goal) {
     state = [...state, goal];
     _saveGoals();
-    if (goal.isCompleted) {
-      _scheduleDeletion(goal);
-    }
+    _scheduleDeletion(goal);
   }
 
   void remove(String id) {
@@ -49,12 +47,7 @@ class GoalListController extends StateNotifier<List<Goal>> {
     ];
     _saveGoals();
     final toggledGoal = state.firstWhere((goal) => goal.id == id);
-    if (toggledGoal.isCompleted) {
-      _scheduleDeletion(toggledGoal);  // 完了済みにした後、1分後に削除するようにスケジュール
-    } else {
-      _timers[id]?.cancel(); // 未完了に戻した場合はタイマーをキャンセル
-      _timers.remove(id);
-    }
+    _scheduleDeletion(toggledGoal);  // 完了済みにした後、1分後に削除するようにスケジュール
   }
 
   void edit(String id, String newTitle) {
@@ -69,9 +62,7 @@ class GoalListController extends StateNotifier<List<Goal>> {
     _saveGoals();
 
     final editedGoal = newList.firstWhere((goal) => goal.id == id);
-    if (editedGoal.isCompleted) {
-      _scheduleDeletion(editedGoal); // 編集時にタイマーをリセット
-    }
+    _scheduleDeletion(editedGoal); // 編集時にタイマーをリセット
   }
 
   void _loadGoals() async {
@@ -80,13 +71,12 @@ class GoalListController extends StateNotifier<List<Goal>> {
     state = goalList.map((goal) => Goal.fromJson(jsonDecode(goal))).toList();
     _sortGoals();
     for (var goal in state) {
-      if (goal.isCompleted) {
-        final duration = Duration(minutes: 1) - DateTime.now().difference(goal.completionDate!);
-        if (duration > Duration.zero) {
-          _scheduleDeletion(goal);
-        } else {
-          remove(goal.id); // 1分を超えていたら直接削除
-        }
+      final duration = Duration(minutes: 1) - DateTime.now().difference(goal.updatedTime);
+      if (duration > Duration.zero) {
+        _scheduleDeletion(goal);
+      } else {
+        remove(goal.id);
+        ref.read(pastGoalsProvider.notifier).add(goal);
       }
     }
   }
@@ -107,7 +97,7 @@ class GoalListController extends StateNotifier<List<Goal>> {
 
   void _scheduleDeletion(Goal goal) {
     _timers[goal.id]?.cancel(); // 既存のタイマーをキャンセル
-    final duration = Duration(minutes: 1) - DateTime.now().difference(goal.completionDate!);
+    final duration = Duration(minutes: 1) - DateTime.now().difference(goal.updatedTime);
     var timer = Timer(duration, () {
       remove(goal.id);
       ref.read(pastGoalsProvider.notifier).add(goal);
