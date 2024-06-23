@@ -35,6 +35,7 @@ class Goal {
       'createdTime': createdTime.toIso8601String(),
       'updatedTime': updatedTime.toIso8601String(),
       'isCompleted': isCompleted,
+      'completionDate': completionDate?.toIso8601String(),
     };
   }
 
