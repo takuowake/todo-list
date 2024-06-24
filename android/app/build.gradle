@@ -51,8 +51,16 @@ android {
 
     buildTypes {
         release {
+            // 署名設定
             signingConfig signingConfigs.release
-            minifyEnabled false
+
+            // 未使用リソースの削除を有効に
+            shrinkResources true
+
+            // 未使用コードの縮小を有効に
+            minifyEnabled true
+
+            // ProGuard 設定ファイル
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
