@@ -37,8 +37,8 @@ class PastGoalsScreen extends ConsumerWidget {
             trailing: Icon(goal.isCompleted ? Icons.check_circle : Icons.cancel),
           );
         },
-        useStickyGroupSeparators: true, // グループセパレータを固定する
-        floatingHeader: true, // フローティングヘッダを有効にする
+        useStickyGroupSeparators: true,
+        floatingHeader: true,
       ),
     );
   }
