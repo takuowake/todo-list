@@ -105,7 +105,7 @@ class _GoalListScreenState extends ConsumerState<GoalListScreen> {
                     child: Padding(
                       padding: const EdgeInsets.only(bottom: 8.0),
                       child: ListView.builder(
-                        key: ValueKey(showCompletedTasks), // Add this line
+                        key: ValueKey(showCompletedTasks),
                         itemCount: incompleteGoals.length,
                         itemBuilder: (context, index) {
                           final goal = incompleteGoals[index];
@@ -118,7 +118,7 @@ class _GoalListScreenState extends ConsumerState<GoalListScreen> {
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: ListTile(
-                              key: ValueKey(goal.id), // Add this line
+                              key: ValueKey(goal.id),
                               title: Text(
                                 goal.title,
                                 style: TextStyle(
