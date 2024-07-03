@@ -62,7 +62,10 @@ class _GoalListScreenState extends ConsumerState<GoalListScreen> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        title: Center(child: Text(formattedDate)),
+        title: Center(child: Text(
+          style: Theme.of(context).textTheme.headlineSmall,
+          formattedDate,
+        )),
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
