@@ -5,38 +5,49 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/goal_model.dart';
 
+/// 現在の目標リストを管理するためのProvider
 final goalListProvider = StateNotifierProvider<GoalListController, List<Goal>>((ref) {
   return GoalListController(ref);
 });
 
+/// 過去の目標リストを管理するためのProvider
 final pastGoalsProvider = StateNotifierProvider<PastGoalsController, List<Goal>>((ref) {
   return PastGoalsController();
 });
 
+/// 現在の目標リストの状態を管理
 class GoalListController extends StateNotifier<List<Goal>> {
   final StateNotifierProviderRef<GoalListController, List<Goal>> ref;
+  // 目標ごとの削除タイマーを管理するためのマップ
   Map<String, Timer> _timers = {};
 
+  /// コントラクタ内で_loadGoalsメソッドを呼び出し、保存された目標をロードする
   GoalListController(this.ref) : super([]) {
     _loadGoals();
   }
 
+  /// 新しい目標を追加
   void add(Goal goal) {
     state = [...state, goal];
     _saveGoals();
     _scheduleDeletion(goal);
   }
 
+  /// 指定されたidの目標をリストから削除
   void remove(String id) {
     state = state.where((goal) => goal.id != id).toList();
     _saveGoals();
+    // 該当するタイマーをキャンセル
     _timers[id]?.cancel();
     _timers.remove(id);
   }
 
+  /// 指定されたid目標を完了状態に切り替える
   void toggleComplete(String id) {
     state = [
+      // リストの各目標を反復処理
       for (final goal in state)
+        // 引数として
         if (goal.id == id)
           goal.copyWith(
             isCompleted: !goal.isCompleted,
