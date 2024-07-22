@@ -1,18 +1,52 @@
-# goal_list
+# プロジェクト構成
 
-A new Flutter project.
+このプロジェクトは、FlutterとSupabaseを用いた24時間で消える目標管理アプリです。以下にフォルダ構成と各フォルダの概要を示します。
 
-## Getting Started
+## フォルダ構成
 
-This project is a starting point for a Flutter application.
+| フォルダ        | 概要                                                                                      |
+|-----------------|-------------------------------------------------------------------------------------------|
+| `lib/`          | アプリケーションのソースコードを格納する主要なフォルダです。                                                |
+| `lib/models/`   | データモデルやエンティティクラス、JSONのパースやデータ構造を定義するクラスが含まれます。                                |
+| `lib/repositories/` | データの取得や保存ロジックを抽象化し、APIやデータベースとのやり取りを行うクラスが含まれます。                          |
+| `lib/services/` | ビジネスロジックを実行し、複数のリポジトリや外部サービスを利用するクラスが含まれます。                                      |
+| `lib/providers/` | アプリケーションの状態管理に関するクラス、プロバイダーや変更通知を行うクラスが含まれます。                                      |
+| `lib/utils/`    | ユーティリティ関数やヘルパークラス、共通の定数や設定値を含むフォルダです。                                               |
+| `lib/views/`    | 画面やページのウィジェット（`screens/`）、再利用可能な小さなUIコンポーネント（`widgets/`）を含むフォルダです。               |
+| `lib/controllers/` | ユーザー入力を処理し、ViewとModel間のデータフローを管理するクラスが含まれます。                                          |
+| `lib/main.dart` | アプリケーションのエントリーポイントで、アプリ全体の初期設定やウィジェットツリーの構築を行います。                           |
 
-A few resources to get you started if this is your first Flutter project:
+## 各フォルダの詳細
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+### `lib/models/`
+- **目的**: データモデルとエンティティクラスの定義、JSONのパースやデータ構造を管理します。
+- **例**: `goal.dart`（`Goal`クラス）
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-# goal-list
-# goal-list
+### `lib/repositories/`
+- **目的**: データ取得・保存ロジックを抽象化し、APIやデータベースとのやり取りを行います。
+- **例**: `goal_repository.dart`（目標データの取得・保存を担当）
+
+### `lib/services/`
+- **目的**: ビジネスロジックを実行し、複数のリポジトリや外部サービスを利用します。
+- **例**: `goal_service.dart`（ビジネスロジックを実装）
+
+### `lib/providers/`
+- **目的**: アプリケーションの状態管理に関するクラスを提供し、状態の変更を通知します。
+- **例**: `goal_provider.dart`（目標データの状態を管理）
+
+### `lib/utils/`
+- **目的**: ユーティリティ関数やヘルパークラス、共通の定数や設定値を提供します。
+- **例**: `date_utils.dart`（日付関連のユーティリティ関数）
+
+### `lib/views/`
+- **目的**: 画面やページのウィジェット、再利用可能なUIコンポーネントを含みます。
+- **例**:
+    - `screens/` - `goal_screen.dart`（目標一覧画面）
+    - `widgets/` - `goal_card.dart`（目標カードウィジェット）
+
+### `lib/controllers/`
+- **目的**: ユーザー入力を処理し、ViewとModel間のデータフローを管理します。
+- **例**: `goal_controller.dart`（目標データの操作を管理）
+
+### `lib/main.dart`
+- **目的**: アプリケーションのエントリーポイントで、初期設定やウィジェットツリーの構築を行います。
