@@ -1,4 +1,5 @@
-import 'dart:convert';
+// goal.dart
+// このファイルは、目標データモデルを定義します。
 
 class Goal {
   final String id;
@@ -17,6 +18,7 @@ class Goal {
     this.completionDate,
   });
 
+  // 目標の一部プロパティを更新するためのメソッド
   Goal copyWith({String? title, DateTime? updatedTime, bool? isCompleted, DateTime? completionDate}) {
     return Goal(
       id: id,
@@ -28,6 +30,7 @@ class Goal {
     );
   }
 
+  // GoalオブジェクトをJSON形式に変換するメソッド
   Map<String, dynamic> toJson() {
     return {
       'id': id,
@@ -39,6 +42,7 @@ class Goal {
     };
   }
 
+  // JSON形式からGoalオブジェクトを生成するメソッド
   static Goal fromJson(Map<String, dynamic> json) {
     return Goal(
       id: json['id'],
