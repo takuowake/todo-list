@@ -12,16 +12,19 @@ class GoalListNotifier extends StateNotifier<List<Goal>> {
 
   GoalListNotifier(this._service) : super([]);
 
+  // 目標リストをロードするメソッド
   Future<void> loadGoals() async {
     final goals = await _service.getGoals();
     state = goals;
   }
 
+  // 新しい目標を追加するメソッド
   void add(Goal goal) async {
     await _service.addGoal(goal);
     state = [...state, goal];
   }
 
+  // 目標を編集するメソッド
   void edit(String id, String title) async {
     final index = state.indexWhere((goal) => goal.id == id);
     if (index == -1) return;
@@ -31,11 +34,13 @@ class GoalListNotifier extends StateNotifier<List<Goal>> {
     state = [...state]..[index] = updatedGoal;
   }
 
+  // 目標を削除するメソッド
   void remove(String id) async {
     await _service.deleteGoal(id);
     state = state.where((goal) => goal.id != id).toList();
   }
 
+  // 目標の完了状態を切り替えるメソッド
   void toggleComplete(String id) async {
     final index = state.indexWhere((goal) => goal.id == id);
     if (index == -1) return;
@@ -50,16 +55,19 @@ class GoalListNotifier extends StateNotifier<List<Goal>> {
   }
 }
 
+// 目標リストのプロバイダー
 final goalListProvider = StateNotifierProvider<GoalListNotifier, List<Goal>>((ref) {
   final service = ref.read(goalServiceProvider);
   return GoalListNotifier(service);
 });
 
+// 目標サービスのプロバイダー
 final goalServiceProvider = Provider<GoalService>((ref) {
   final repository = ref.read(goalRepositoryProvider);
   return GoalService(repository);
 });
 
+// 目標リポジトリのプロバイダー
 final goalRepositoryProvider = Provider<GoalRepository>((ref) {
   final client = SupabaseClient('supabaseUrl', 'supabaseKey');
   return GoalRepository(client);
