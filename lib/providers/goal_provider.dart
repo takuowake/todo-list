@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:goal_list/models/goal.dart';
 import 'package:goal_list/repository/goal_repository.dart';
 import 'package:goal_list/services/goal_service.dart';
+import 'package:goal_list/utils/user_utils.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class GoalListNotifier extends StateNotifier<List<Goal>> {
@@ -12,9 +13,10 @@ class GoalListNotifier extends StateNotifier<List<Goal>> {
 
   GoalListNotifier(this._service) : super([]);
 
-  // 目標リストをロードするメソッド
+  // ユーザーIDを使用して目標リストをロードするメソッド
   Future<void> loadGoals() async {
-    final goals = await _service.getGoals();
+    final userId = await UserUtils.getUserId();
+    final goals = await _service.getGoals(userId);
     state = goals;
   }
 
