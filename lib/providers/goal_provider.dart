@@ -11,7 +11,9 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 class GoalListNotifier extends StateNotifier<List<Goal>> {
   final GoalService _service;
 
-  GoalListNotifier(this._service) : super([]);
+  GoalListNotifier(this._service) : super([]) {
+    loadGoals();
+  }
 
   // ユーザーIDを使用して目標リストをロードするメソッド
   Future<void> loadGoals() async {
