@@ -71,6 +71,6 @@ final goalServiceProvider = Provider<GoalService>((ref) {
 
 // 目標リポジトリのプロバイダー
 final goalRepositoryProvider = Provider<GoalRepository>((ref) {
-  final client = SupabaseClient('supabaseUrl', 'supabaseKey');
+  final client = Supabase.instance.client;
   return GoalRepository(client);
 });
