@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:grouped_list/grouped_list.dart';
-import '../controllers/goal_provider.dart';
-import '../models/goal_model.dart';
+import '../providers/goal_provider.dart';
+import '../models/goal.dart';
 
 class PastGoalsScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final pastGoals = ref.watch(pastGoalsProvider);
+    final pastGoals = ref.watch(goalListProvider);
 
     return Scaffold(
       appBar: AppBar(
