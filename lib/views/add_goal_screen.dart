@@ -15,8 +15,12 @@ class AddGoalScreen extends ConsumerWidget {
     final textController = TextEditingController();
 
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
-        title: Text('目標を追加'),
+        title: Text(
+          style: Theme.of(context).textTheme.headlineSmall,
+          '目標を追加',
+        ),
       ),
       body: Stack(
         children: [
