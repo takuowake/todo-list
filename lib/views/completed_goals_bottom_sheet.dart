@@ -32,11 +32,22 @@ class CompletedGoalsBottomSheet extends ConsumerWidget {
                       decoration: TextDecoration.lineThrough,
                     ),
                   ),
-                  trailing: IconButton(
-                    icon: const Icon(Icons.delete),
-                    onPressed: () {
-                      ref.read(goalListProvider.notifier).remove(goal.id);
-                    },
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      IconButton(
+                        icon: const Icon(Icons.reply),
+                        onPressed: () {
+                          _showRestoreDialog(context, ref, goal.id);
+                        },
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.delete),
+                        onPressed: () {
+                          ref.watch(goalListProvider.notifier).remove(goal.id);
+                        },
+                      ),
+                    ],
                   ),
                 );
               },
@@ -44,6 +55,32 @@ class CompletedGoalsBottomSheet extends ConsumerWidget {
           ),
         ],
       ),
+    );
+  }
+
+  void _showRestoreDialog(BuildContext context, WidgetRef ref, String goalId) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('この目標を戻しますか？'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                ref.watch(goalListProvider.notifier).toggleComplete(goalId);
+                Navigator.of(context).pop();
+              },
+              child: const Text('はい'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('キャンセル'),
+            ),
+          ],
+        );
+      },
     );
   }
 }
