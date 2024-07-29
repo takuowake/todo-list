@@ -42,9 +42,16 @@ class AddGoalScreen extends ConsumerWidget {
                   TextField(
                     controller: textController,
                     decoration: InputDecoration(labelText: '目標'),
+                    style: TextStyle(color: Colors.black),
                   ),
                   SizedBox(height: 16.0),
                   ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.transparent,
+                      shadowColor: Colors.transparent,
+                      elevation: 0,
+                        side: BorderSide(color: Colors.black, width: 1),
+                    ),
                     onPressed: () async {
                       final userId = await UserUtils.getUserId();
                       final newGoal = Goal(
@@ -62,7 +69,10 @@ class AddGoalScreen extends ConsumerWidget {
                       );
                       textController.clear();
                     },
-                    child: Text('保存する'),
+                    child: Text(
+                      style: TextStyle(color: Colors.black),
+                      '保存する',
+                    ),
                   ),
                 ],
               ),
