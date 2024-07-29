@@ -21,8 +21,8 @@ class GoalListScreen extends ConsumerWidget {
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         title: Text(
-          '目標一覧',
           style: Theme.of(context).textTheme.headlineSmall,
+          '目標一覧',
         ),
         backgroundColor: Colors.transparent,
         elevation: 0,
