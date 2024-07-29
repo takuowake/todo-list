@@ -15,7 +15,7 @@ class GoalListScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final goalList = ref.watch(goalListProvider);
+    final goalList = ref.watch(goalListProvider).where((goal) => !goal.isCompleted).toList(); // 未完了の目標のみ表示
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -44,32 +44,48 @@ class GoalListScreen extends ConsumerWidget {
           ),
         ],
       ),
-      body: SafeArea(
-        child: Column(
-          children: [
-            Expanded(
-              child: ListView.builder(
-                itemCount: goalList.length,
-                itemBuilder: (context, index) {
-                  final goal = goalList[index];
-                  return GoalListTile(goal: goal);
-                },
+      body: Stack(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/images/background.png'), // 背景画像を追加
+                fit: BoxFit.cover,
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: ElevatedButton(
-                onPressed: () {
-                  showModalBottomSheet(
-                    context: context,
-                    builder: (context) => CompletedGoalsBottomSheet(),
-                  );
-                },
-                child: Text('24時間以内の完了済み目標を見る'),
-              ),
+          ),
+          SafeArea(
+            child: Column(
+              children: [
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: goalList.length,
+                    itemBuilder: (context, index) {
+                      final goal = goalList[index];
+                      return GoalListTile(goal: goal);
+                    },
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
+                    onPressed: () {
+                      showModalBottomSheet(
+                        context: context,
+                        builder: (context) => CompletedGoalsBottomSheet(),
+                      );
+                    },
+                    child: Text(
+                      style: TextStyle(color: Colors.black),
+                      '24時間以内の完了済み目標を見る',
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
