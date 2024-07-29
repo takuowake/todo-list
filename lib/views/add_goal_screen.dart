@@ -21,6 +21,8 @@ class AddGoalScreen extends ConsumerWidget {
           style: Theme.of(context).textTheme.headlineSmall,
           '目標を追加',
         ),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
       ),
       body: Stack(
         children: [
@@ -32,36 +34,38 @@ class AddGoalScreen extends ConsumerWidget {
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              children: [
-                TextField(
-                  controller: textController,
-                  decoration: InputDecoration(labelText: '目標'),
-                ),
-                SizedBox(height: 16.0),
-                ElevatedButton(
-                  onPressed: () async {
-                    final userId = await UserUtils.getUserId();
-                    final newGoal = Goal(
-                      id: Uuid().v4(),
-                      userId: userId,
-                      title: textController.text,
-                      createdTime: DateTime.now(),
-                      updatedTime: DateTime.now(),
-                    );
-                    ref.read(goalListProvider.notifier).add(newGoal);
-                    Fluttertoast.showToast(
-                      msg: "「${textController.text}」が追加されました",
-                      toastLength: Toast.LENGTH_SHORT,
-                      gravity: ToastGravity.BOTTOM,
-                    );
-                    textController.clear();
-                  },
-                  child: Text('保存する'),
-                ),
-              ],
+          SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                children: [
+                  TextField(
+                    controller: textController,
+                    decoration: InputDecoration(labelText: '目標'),
+                  ),
+                  SizedBox(height: 16.0),
+                  ElevatedButton(
+                    onPressed: () async {
+                      final userId = await UserUtils.getUserId();
+                      final newGoal = Goal(
+                        id: Uuid().v4(),
+                        userId: userId,
+                        title: textController.text,
+                        createdTime: DateTime.now(),
+                        updatedTime: DateTime.now(),
+                      );
+                      ref.read(goalListProvider.notifier).add(newGoal);
+                      Fluttertoast.showToast(
+                        msg: "「${textController.text}」が追加されました",
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.BOTTOM,
+                      );
+                      textController.clear();
+                    },
+                    child: Text('保存する'),
+                  ),
+                ],
+              ),
             ),
           ),
         ],
