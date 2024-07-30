@@ -14,43 +14,51 @@ class GoalListTile extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return ListTile(
-      title: Text(
-        goal.title,
-        style: TextStyle(
-          decoration: goal.isCompleted ? TextDecoration.lineThrough : null,
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 4.0, horizontal: 10.0), // 各ListTileの上下に余白を追加
+      padding: EdgeInsets.symmetric(horizontal: 16.0), // 内側の余白を設定
+      decoration: BoxDecoration(
+        color: Colors.white.withOpacity(0.7), // 背景色を透明な白に設定
+        borderRadius: BorderRadius.circular(15), // 角を丸める
+      ),
+      child: ListTile(
+        title: Text(
+          goal.title,
+          style: TextStyle(
+            decoration: goal.isCompleted ? TextDecoration.lineThrough : null,
+          ),
         ),
+        subtitle: Text('残り: ${_formatRemainingTime(goal.updatedTime)}'),
+        trailing: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            IconButton(
+              icon: Icon(goal.isCompleted ? Icons.check_box : Icons.check_box_outline_blank),
+              onPressed: () {
+                ref.watch(goalListProvider.notifier).toggleComplete(goal.id);
+              },
+            ),
+            IconButton(
+              icon: const Icon(Icons.edit),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => EditGoalScreen(goal: goal)),
+                );
+              },
+            ),
+            IconButton(
+              icon: const Icon(Icons.delete),
+              onPressed: () {
+                _showDeleteDialog(context, ref, goal.id);
+              },
+            ),
+          ],
+        ),
+        onTap: () {
+          ref.watch(goalListProvider.notifier).toggleComplete(goal.id);
+        },
       ),
-      subtitle: Text('残り: ${_formatRemainingTime(goal.updatedTime)}'),
-      trailing: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          IconButton(
-            icon: Icon(goal.isCompleted ? Icons.check_box : Icons.check_box_outline_blank),
-            onPressed: () {
-              ref.watch(goalListProvider.notifier).toggleComplete(goal.id);
-            },
-          ),
-          IconButton(
-            icon: const Icon(Icons.edit),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => EditGoalScreen(goal: goal)),
-              );
-            },
-          ),
-          IconButton(
-            icon: const Icon(Icons.delete),
-            onPressed: () {
-              _showDeleteDialog(context, ref, goal.id);
-            },
-          ),
-        ],
-      ),
-      onTap: () {
-        ref.watch(goalListProvider.notifier).toggleComplete(goal.id);
-      },
     );
   }
 
