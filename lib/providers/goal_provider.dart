@@ -76,3 +76,6 @@ final goalRepositoryProvider = Provider<GoalRepository>((ref) {
   final client = Supabase.instance.client;
   return GoalRepository(client);
 });
+
+// TextEditingControllerの状態を管理するProvider
+final textFieldProvider = StateProvider<String>((ref) => '');

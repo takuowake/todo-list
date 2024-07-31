@@ -43,36 +43,48 @@ class AddGoalScreen extends ConsumerWidget {
                     controller: textController,
                     decoration: InputDecoration(labelText: '目標'),
                     style: TextStyle(color: Colors.black),
+                    onChanged: (text) {
+                      ref.read(textFieldProvider.notifier).state = text;
+                    },
                   ),
                   SizedBox(height: 16.0),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.transparent,
-                      shadowColor: Colors.transparent,
-                      elevation: 0,
-                        side: BorderSide(color: Colors.black, width: 1),
-                    ),
-                    onPressed: () async {
-                      final userId = await UserUtils.getUserId();
-                      final newGoal = Goal(
-                        id: Uuid().v4(),
-                        userId: userId,
-                        title: textController.text,
-                        createdTime: DateTime.now(),
-                        updatedTime: DateTime.now(),
+                  Consumer(
+                    builder: (context, ref, child) {
+                      final text = ref.watch(textFieldProvider);
+                      return ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.white,
+                          shadowColor: Colors.transparent,
+                          elevation: 0,
+                        ),
+                        onPressed: text.isEmpty
+                            ? null
+                            : () async {
+                          final userId = await UserUtils.getUserId();
+                          final newGoal = Goal(
+                            id: Uuid().v4(),
+                            userId: userId,
+                            title: textController.text,
+                            createdTime: DateTime.now(),
+                            updatedTime: DateTime.now(),
+                          );
+                          ref.read(goalListProvider.notifier).add(newGoal);
+                          Fluttertoast.showToast(
+                            msg: "「${textController.text}」が追加されました",
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.BOTTOM,
+                            backgroundColor: Colors.blue,
+                            textColor: Colors.white,
+                          );
+                          textController.clear();
+                          ref.read(textFieldProvider.notifier).state = '';
+                        },
+                        child: Text(
+                          style: TextStyle(color: Colors.black),
+                          '保存する',
+                        ),
                       );
-                      ref.read(goalListProvider.notifier).add(newGoal);
-                      Fluttertoast.showToast(
-                        msg: "「${textController.text}」が追加されました",
-                        toastLength: Toast.LENGTH_SHORT,
-                        gravity: ToastGravity.BOTTOM,
-                      );
-                      textController.clear();
                     },
-                    child: Text(
-                      style: TextStyle(color: Colors.black),
-                      '保存する',
-                    ),
                   ),
                 ],
               ),
