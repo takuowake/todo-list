@@ -40,22 +40,32 @@ class EditGoalScreen extends ConsumerWidget {
                   TextField(
                     controller: textController,
                     decoration: InputDecoration(labelText: '目標'),
+                    onChanged: (text) {
+                      ref.read(editTextFieldProvider.notifier).state = text;
+                    },
                   ),
                   SizedBox(height: 16.0),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.white,
-                      shadowColor: Colors.transparent,
-                      elevation: 0,
-                    ),
-                    onPressed: () {
-                      ref.read(goalListProvider.notifier).edit(goal.id, textController.text);
-                      Navigator.pop(context);
+                  Consumer(
+                    builder: (context, ref, child) {
+                      final text = ref.watch(editTextFieldProvider);
+                      return ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.white,
+                          shadowColor: Colors.transparent,
+                          elevation: 0,
+                        ),
+                        onPressed: text == goal.title || text.isEmpty
+                            ? null
+                            : () {
+                          ref.read(goalListProvider.notifier).edit(goal.id, textController.text);
+                          Navigator.pop(context);
+                        },
+                        child: Text(
+                          style: TextStyle(color: Colors.black),
+                          '保存する',
+                        ),
+                      );
                     },
-                    child: Text(
-                      style: TextStyle(color: Colors.black),
-                      '保存する',
-                    ),
                   ),
                 ],
               ),
@@ -66,3 +76,5 @@ class EditGoalScreen extends ConsumerWidget {
     );
   }
 }
+
+final editTextFieldProvider = StateProvider<String>((ref) => '');
