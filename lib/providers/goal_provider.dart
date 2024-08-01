@@ -89,5 +89,12 @@ final goalRepositoryProvider = Provider<GoalRepository>((ref) {
   return GoalRepository(client);
 });
 
+// 期限切れの目標を取得するプロバイダー
+final expiredGoalsProvider = Provider<List<Goal>>((ref) {
+  final allGoals = ref.watch(goalListProvider);
+  final now = DateTime.now();
+  return allGoals.where((goal) => goal.updatedTime.add(Duration(hours: 24)).isBefore(now)).toList();
+});
+
 // TextEditingControllerの状態を管理するProvider
 final textFieldProvider = StateProvider<String>((ref) => '');
