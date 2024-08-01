@@ -22,6 +22,7 @@ class PastGoalsScreen extends ConsumerWidget {
           child: Text(
             groupByValue,
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            textAlign: TextAlign.center,
           ),
         ),
         itemBuilder: (context, Goal goal) {
