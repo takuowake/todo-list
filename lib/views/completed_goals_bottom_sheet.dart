@@ -25,29 +25,39 @@ class CompletedGoalsBottomSheet extends ConsumerWidget {
               itemCount: completedGoals.length,
               itemBuilder: (context, index) {
                 final goal = completedGoals[index];
-                return ListTile(
-                  title: Text(
-                    goal.title,
-                    style: const TextStyle(
-                      decoration: TextDecoration.lineThrough,
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0), // 上下のパディングを追加
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10), // 角丸にする
                     ),
-                  ),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      IconButton(
-                        icon: const Icon(Icons.reply),
-                        onPressed: () {
-                          _showRestoreDialog(context, ref, goal.id);
-                        },
+                    elevation: 2, // 影を追加
+                    child: ListTile(
+                      title: Text(
+                        goal.title,
+                        style: const TextStyle(
+                          decoration: TextDecoration.lineThrough,
+                          fontWeight: FontWeight.bold, // 太字にする
+                        ),
                       ),
-                      IconButton(
-                        icon: const Icon(Icons.delete),
-                        onPressed: () {
-                          ref.watch(goalListProvider.notifier).remove(goal.id);
-                        },
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          IconButton(
+                            icon: const Icon(Icons.reply, color: Colors.blueAccent), // アイコンの色を設定
+                            onPressed: () {
+                              _showRestoreDialog(context, ref, goal.id);
+                            },
+                          ),
+                          IconButton(
+                            icon: const Icon(Icons.delete, color: Colors.redAccent), // アイコンの色を設定
+                            onPressed: () {
+                              ref.read(goalListProvider.notifier).remove(goal.id);
+                            },
+                          ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
                 );
               },
@@ -67,7 +77,7 @@ class CompletedGoalsBottomSheet extends ConsumerWidget {
           actions: [
             TextButton(
               onPressed: () {
-                ref.watch(goalListProvider.notifier).toggleComplete(goalId);
+                ref.read(goalListProvider.notifier).toggleComplete(goalId);
                 Navigator.of(context).pop();
               },
               child: const Text('はい'),
