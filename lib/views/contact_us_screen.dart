@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-class ContactUsPage extends StatefulWidget {
+class ContactUsScreen extends StatefulWidget {
   @override
-  _ContactUsPageState createState() => _ContactUsPageState();
+  _ContactUsScreenState createState() => _ContactUsScreenState();
 }
 
-class _ContactUsPageState extends State<ContactUsPage> {
+class _ContactUsScreenState extends State<ContactUsScreen> {
   late final WebViewController _controller;
 
   @override

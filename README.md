@@ -1,18 +1,77 @@
-# goal_list
+https://chatgpt.com/share/73991965-ea93-4bef-9273-452f24936a86
 
-A new Flutter project.
+# プロジェクト構成
 
-## Getting Started
+このプロジェクトは、FlutterとSupabaseを用いた24時間で消える目標管理アプリです。以下にフォルダ構成と各フォルダの概要を示します。
 
-This project is a starting point for a Flutter application.
+## フォルダ構成
 
-A few resources to get you started if this is your first Flutter project:
+| フォルダ        | 概要                                                                                      |
+|-----------------|-------------------------------------------------------------------------------------------|
+| `models/`   | データモデルやエンティティクラス、JSONのパースやデータ構造を定義するクラスが含まれます。                                |
+| `repositories/` | データの取得や保存ロジックを抽象化し、APIやデータベースとのやり取りを行うクラスが含まれます。                          |
+| `services/` | ビジネスロジックを実行し、複数のリポジトリや外部サービスを利用するクラスが含まれます。                                      |
+| `providers/` | アプリケーションの状態管理に関するクラス、プロバイダーや変更通知を行うクラスが含まれます。                                      |
+| `utils/`    | ユーティリティ関数やヘルパークラス、共通の定数や設定値を含むフォルダです。                                               |
+| `views/`    | 画面やページのウィジェット（`screens/`）、再利用可能な小さなUIコンポーネント（`widgets/`）を含むフォルダです。               |
+| `controllers/` | ユーザー入力を処理し、ViewとModel間のデータフローを管理するクラスが含まれます。                                          |
+| `main.dart` | アプリケーションのエントリーポイントで、アプリ全体の初期設定やウィジェットツリーの構築を行います。                           |
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## 各フォルダの詳細
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-# goal-list
-# goal-list
+### `models/`
+- **目的**: データモデルとエンティティクラスの定義、JSONのパースやデータ構造を管理します。
+- **例**: `goal.dart`（`Goal`クラス）
+
+### `repositories/`
+- **目的**: データ取得・保存ロジックを抽象化し、APIやデータベースとのやり取りを行います。
+- **例**: `goal_repository.dart`（目標データの取得・保存を担当）
+
+### `services/`
+- **目的**: ビジネスロジックを実行し、複数のリポジトリや外部サービスを利用します。
+- **例**: `goal_service.dart`（ビジネスロジックを実装）
+
+### `providers/`
+- **目的**: アプリケーションの状態管理に関するクラスを提供し、状態の変更を通知します。
+- **例**: `goal_provider.dart`（目標データの状態を管理）
+
+### `utils/`
+- **目的**: ユーティリティ関数やヘルパークラス、共通の定数や設定値を提供します。
+- **例**: `date_utils.dart`（日付関連のユーティリティ関数）
+
+### `views/`
+- **目的**: 画面やページのウィジェット、再利用可能なUIコンポーネントを含みます。
+- **例**:
+  - `screens/`
+    - `goal_screen.dart`（目標一覧画面）
+    - `settings_screen.dart`（設定画面）
+    - `privacy_policy_screen.dart`（プライバシーポリシー画面）
+    - `contact_us_screen.dart`（お問い合わせ画面）
+    - `terms_of_service_screen.dart`（利用規約画面）
+    - `past_goals_screen.dart`（過去の目標画面）
+    - `add_goal_screen.dart`（目標追加画面）
+    - `completed_goals_dialog.dart`（完了済み目標表示ダイアログ）
+  - `widgets/`
+    - `goal_card.dart`（目標カードウィジェット）
+
+### `controllers/`
+- **目的**: ユーザー入力を処理し、ViewとModel間のデータフローを管理します。
+- **例**: `goal_controller.dart`（目標データの操作を管理）
+
+### `main.dart`
+- **目的**: アプリケーションのエントリーポイントで、初期設定やウィジェットツリーの構築を行います。
+
+## ホーム画面の詳細
+
+### `home.dart`
+- **目的**: ホーム画面は2つのページ（設定画面と目標一覧画面）で構成されています。
+- **概要**:
+  - `HomePage`クラスは、`PageController`を使用して、ページの切り替えを管理します。
+  - `SettingsScreen`（設定画面）と`GoalListScreen`（目標一覧画面）が含まれています。
+
+### `settings.dart`
+- **目的**: 設定画面は以下の4つの画面を含みます。
+  - `privacy_policy_screen.dart`（プライバシーポリシー）
+  - `contact_us_screen.dart`（お問い合わせ）
+  - `terms_of_service_screen.dart`（利用規約）
+  - `past_goals_screen.dart`（過去の目標一覧）
