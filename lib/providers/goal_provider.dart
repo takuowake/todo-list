@@ -10,7 +10,6 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 class GoalListNotifier extends StateNotifier<List<Goal>> {
   final GoalService _service;
-  List<Goal> _allGoals = []; // 全ての目標を保持するリストを初期化
 
   GoalListNotifier(this._service) : super([]) {
     _loadGoals();
