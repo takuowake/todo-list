@@ -8,7 +8,7 @@ import '../models/goal.dart';
 class PastGoalsScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final pastGoals = ref.watch(goalListProvider);
+    final pastGoals = ref.watch(expiredGoalsProvider);
 
     return Scaffold(
       appBar: AppBar(
