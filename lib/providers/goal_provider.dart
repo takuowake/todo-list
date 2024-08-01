@@ -28,6 +28,12 @@ class GoalListNotifier extends StateNotifier<List<Goal>> {
     return goals.where((goal) => goal.updatedTime.add(Duration(hours: 24)).isAfter(now)).toList();
   }
 
+  // 過去の目標（期限切れの目標）を取得するメソッド
+  List<Goal> filterPastGoals() {
+    final now = DateTime.now();
+    return state.where((goal) => goal.updatedTime.add(Duration(hours: 24)).isBefore(now)).toList();
+  }
+
   // 新しい目標を追加するメソッド
   void add(Goal goal) async {
     await _service.addGoal(goal);
