@@ -1,0 +1,31 @@
+# fastlane/Fastfile
+
+default_platform(:ios)
+
+platform :ios do
+  desc "Deploy to Development"
+  lane :deploy_dev do
+    # 環境変数をDart Defineとして渡す
+    sh "flutter build apk --flavor dev --dart-define=ENV_FILE=.env.dev"
+  end
+
+  desc "Deploy to Production"
+  lane :deploy_prod do
+    # 環境変数をDart Defineとして渡す
+    sh "flutter build apk --flavor prod --dart-define=ENV_FILE=.env.prod"
+  end
+end
+
+platform :android do
+  desc "Deploy to Development"
+  lane :deploy_dev do
+    # 環境変数をDart Defineとして渡す
+    sh "flutter build apk --flavor dev --dart-define=ENV_FILE=.env.dev"
+  end
+
+  desc "Deploy to Production"
+  lane :deploy_prod do
+    # 環境変数をDart Defineとして渡す
+    sh "flutter build apk --flavor prod --dart-define=ENV_FILE=.env.prod"
+  end
+end

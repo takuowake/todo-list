@@ -6,7 +6,11 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await dotenv.load(fileName: '.env');
+  // Dart Defineで指定された.envファイルを読み込む
+  const envFile = String.fromEnvironment('ENV_FILE', defaultValue: '.env.prod');
+  await dotenv.load(fileName: envFile);
+
+  // Supabaseの初期化
   await Supabase.initialize(
     url: dotenv.get('SUPABASE_URL'),
     anonKey: dotenv.get('SUPABASE_ANONKEY'),
