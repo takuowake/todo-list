@@ -16,7 +16,7 @@ class PastGoalsScreen extends ConsumerWidget {
       ),
       body: GroupedListView<Goal, String>(
         elements: pastGoals,
-        groupBy: (goal) => DateFormat('yyyy/MM/dd').format(goal.completionDate ?? goal.updated_time),
+        groupBy: (goal) => DateFormat('yyyy/MM/dd').format(goal.completion_date ?? goal.updated_time),
         groupSeparatorBuilder: (String groupByValue) => Padding(
           padding: const EdgeInsets.all(8.0),
           child: Text(
@@ -32,7 +32,7 @@ class PastGoalsScreen extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text('作成日: ${DateFormat('yyyy/MM/dd').format(goal.created_time)}'),
-                Text('完了日: ${goal.completionDate != null ? DateFormat('yyyy/MM/dd').format(goal.completionDate!) : '未完了'}'),
+                Text('完了日: ${goal.completion_date != null ? DateFormat('yyyy/MM/dd').format(goal.completion_date!) : '未完了'}'),
               ],
             ),
             trailing: Icon(goal.is_completed ? Icons.check_circle : Icons.cancel),
