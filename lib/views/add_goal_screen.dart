@@ -66,7 +66,7 @@ class AddGoalScreen extends ConsumerWidget {
                             userId: userId,
                             title: textController.text,
                             created_time: DateTime.now(),
-                            updatedTime: DateTime.now(),
+                            updated_time: DateTime.now(),
                           );
                           ref.read(goalListProvider.notifier).add(newGoal);
                           Fluttertoast.showToast(

@@ -28,7 +28,7 @@ class GoalListTile extends ConsumerWidget {
             decoration: goal.is_completed ? TextDecoration.lineThrough : null,
           ),
         ),
-        subtitle: Text('残り: ${_formatRemainingTime(goal.updatedTime)}'),
+        subtitle: Text('残り: ${_formatRemainingTime(goal.updated_time)}'),
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -62,9 +62,9 @@ class GoalListTile extends ConsumerWidget {
     );
   }
 
-  String _formatRemainingTime(DateTime updatedTime) {
+  String _formatRemainingTime(DateTime updated_time) {
     final now = DateTime.now();
-    final difference = updatedTime.add(Duration(hours: 24)).difference(now);
+    final difference = updated_time.add(Duration(hours: 24)).difference(now);
     if (difference.isNegative) {
       return "Expired";
     } else {

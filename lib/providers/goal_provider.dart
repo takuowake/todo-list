@@ -25,13 +25,13 @@ class GoalListNotifier extends StateNotifier<List<Goal>> {
   // 目標のリストから期限切れのものをフィルタリングするメソッド
   List<Goal> _filterExpiredGoals(List<Goal> goals) {
     final now = DateTime.now();
-    return goals.where((goal) => goal.updatedTime.add(Duration(hours: 24)).isAfter(now)).toList();
+    return goals.where((goal) => goal.updated_time.add(Duration(hours: 24)).isAfter(now)).toList();
   }
 
   // 過去の目標（期限切れの目標）を取得するメソッド
   List<Goal> filterPastGoals() {
     final now = DateTime.now();
-    return state.where((goal) => goal.updatedTime.add(Duration(hours: 24)).isBefore(now)).toList();
+    return state.where((goal) => goal.updated_time.add(Duration(hours: 24)).isBefore(now)).toList();
   }
 
   // 新しい目標を追加するメソッド
@@ -45,7 +45,7 @@ class GoalListNotifier extends StateNotifier<List<Goal>> {
     final index = state.indexWhere((goal) => goal.id == id);
     if (index == -1) return;
 
-    final updatedGoal = state[index].copyWith(title: title, updatedTime: DateTime.now());
+    final updatedGoal = state[index].copyWith(title: title, updated_time: DateTime.now());
     await _service.updateGoal(updatedGoal);
     state = _filterExpiredGoals([...state]..[index] = updatedGoal);
   }
@@ -63,7 +63,7 @@ class GoalListNotifier extends StateNotifier<List<Goal>> {
 
     final updatedGoal = state[index].copyWith(
       is_completed: !state[index].is_completed,
-      updatedTime: DateTime.now(),
+      updated_time: DateTime.now(),
       completionDate: state[index].is_completed ? null : DateTime.now(),
     );
     await _service.updateGoal(updatedGoal);
@@ -93,7 +93,7 @@ final goalRepositoryProvider = Provider<GoalRepository>((ref) {
 final expiredGoalsProvider = Provider<List<Goal>>((ref) {
   final allGoals = ref.watch(goalListProvider);
   final now = DateTime.now();
-  return allGoals.where((goal) => goal.updatedTime.add(Duration(hours: 24)).isBefore(now)).toList();
+  return allGoals.where((goal) => goal.updated_time.add(Duration(hours: 24)).isBefore(now)).toList();
 });
 
 // TextEditingControllerの状態を管理するProvider
