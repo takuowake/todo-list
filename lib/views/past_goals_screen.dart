@@ -35,7 +35,7 @@ class PastGoalsScreen extends ConsumerWidget {
                 Text('完了日: ${goal.completionDate != null ? DateFormat('yyyy/MM/dd').format(goal.completionDate!) : '未完了'}'),
               ],
             ),
-            trailing: Icon(goal.isCompleted ? Icons.check_circle : Icons.cancel),
+            trailing: Icon(goal.is_completed ? Icons.check_circle : Icons.cancel),
           );
         },
         useStickyGroupSeparators: true,

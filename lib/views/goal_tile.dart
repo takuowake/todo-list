@@ -25,7 +25,7 @@ class GoalListTile extends ConsumerWidget {
         title: Text(
           goal.title,
           style: TextStyle(
-            decoration: goal.isCompleted ? TextDecoration.lineThrough : null,
+            decoration: goal.is_completed ? TextDecoration.lineThrough : null,
           ),
         ),
         subtitle: Text('残り: ${_formatRemainingTime(goal.updatedTime)}'),
@@ -33,7 +33,7 @@ class GoalListTile extends ConsumerWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             IconButton(
-              icon: Icon(goal.isCompleted ? Icons.check_box : Icons.check_box_outline_blank),
+              icon: Icon(goal.is_completed ? Icons.check_box : Icons.check_box_outline_blank),
               onPressed: () {
                 ref.watch(goalListProvider.notifier).toggleComplete(goal.id);
               },

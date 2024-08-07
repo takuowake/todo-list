@@ -15,7 +15,7 @@ class GoalListScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final goalList = ref.watch(goalListProvider).where((goal) => !goal.isCompleted).toList(); // 未完了の目標のみ表示
+    final goalList = ref.watch(goalListProvider).where((goal) => !goal.is_completed).toList(); // 未完了の目標のみ表示
 
     return Scaffold(
       extendBodyBehindAppBar: true,

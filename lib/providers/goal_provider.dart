@@ -62,9 +62,9 @@ class GoalListNotifier extends StateNotifier<List<Goal>> {
     if (index == -1) return;
 
     final updatedGoal = state[index].copyWith(
-      isCompleted: !state[index].isCompleted,
+      is_completed: !state[index].is_completed,
       updatedTime: DateTime.now(),
-      completionDate: state[index].isCompleted ? null : DateTime.now(),
+      completionDate: state[index].is_completed ? null : DateTime.now(),
     );
     await _service.updateGoal(updatedGoal);
     state = _filterExpiredGoals([...state]..[index] = updatedGoal);

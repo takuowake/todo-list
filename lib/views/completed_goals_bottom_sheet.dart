@@ -9,7 +9,7 @@ class CompletedGoalsBottomSheet extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final goalList = ref.watch(goalListProvider);
-    final completedGoals = goalList.where((goal) => goal.isCompleted).toList();
+    final completedGoals = goalList.where((goal) => goal.is_completed).toList();
 
     return Container(
       padding: const EdgeInsets.all(16.0),

@@ -7,7 +7,7 @@ class Goal {
   final String title;
   final DateTime createdTime;
   final DateTime updatedTime;
-  final bool isCompleted;
+  final bool is_completed;
   final DateTime? completionDate;
 
   Goal({
@@ -16,18 +16,18 @@ class Goal {
     required this.title,
     required this.createdTime,
     required this.updatedTime,
-    this.isCompleted = false,
+    this.is_completed = false,
     this.completionDate,
   });
 
-  Goal copyWith({String? userId, String? title, DateTime? updatedTime, bool? isCompleted, DateTime? completionDate}) {
+  Goal copyWith({String? userId, String? title, DateTime? updatedTime, bool? is_completed, DateTime? completionDate}) {
     return Goal(
       id: id,
       userId: userId ?? this.userId, // ユーザーIDをコピー
       title: title ?? this.title,
       createdTime: createdTime,
       updatedTime: updatedTime ?? this.updatedTime,
-      isCompleted: isCompleted ?? this.isCompleted,
+      is_completed: is_completed ?? this.is_completed,
       completionDate: completionDate ?? this.completionDate,
     );
   }
@@ -39,7 +39,7 @@ class Goal {
       'title': title,
       'createdTime': createdTime.toIso8601String(),
       'updatedTime': updatedTime.toIso8601String(),
-      'isCompleted': isCompleted,
+      'is_completed': is_completed,
       'completionDate': completionDate?.toIso8601String(),
     };
   }
@@ -51,7 +51,7 @@ class Goal {
       title: json['title'],
       createdTime: DateTime.parse(json['createdTime']),
       updatedTime: DateTime.parse(json['updatedTime']),
-      isCompleted: json['isCompleted'],
+      is_completed: json['is_completed'],
       completionDate: json['completionDate'] != null ? DateTime.parse(json['completionDate']) : null,
     );
   }
