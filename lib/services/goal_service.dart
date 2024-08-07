@@ -9,8 +9,8 @@ class GoalService {
 
   GoalService(this._repository);
 
-  Future<List<Goal>> getGoals(String userId) async {
-    return await _repository.fetchGoals(userId);
+  Future<List<Goal>> getGoals(String user_id) async {
+    return await _repository.fetchGoals(user_id);
   }
 
   Future<void> addGoal(Goal goal) async {

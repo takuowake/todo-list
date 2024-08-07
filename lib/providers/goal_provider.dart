@@ -17,8 +17,8 @@ class GoalListNotifier extends StateNotifier<List<Goal>> {
 
   // ユーザーIDを使用して目標リストをロードするメソッド
   Future<void> _loadGoals() async {
-    final userId = await UserUtils.getUserId();
-    final goals = await _service.getGoals(userId);
+    final user_id = await UserUtils.getUserId();
+    final goals = await _service.getGoals(user_id);
     state = _filterExpiredGoals(goals);
   }
 

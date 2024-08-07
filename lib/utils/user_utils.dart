@@ -5,19 +5,19 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
 
 class UserUtils {
-  static const String userIdKey = 'userId';
+  static const String user_idKey = 'user_id';
 
   // ユーザーIDを取得する関数
   static Future<String> getUserId() async {
     final prefs = await SharedPreferences.getInstance();
-    String? userId = prefs.getString(userIdKey);
+    String? user_id = prefs.getString(user_idKey);
 
-    if (userId == null) {
+    if (user_id == null) {
       // ユーザーIDが存在しない場合、新しく生成して保存
-      userId = Uuid().v4();
-      await prefs.setString(userIdKey, userId);
+      user_id = Uuid().v4();
+      await prefs.setString(user_idKey, user_id);
     }
 
-    return userId;
+    return user_id;
   }
 }

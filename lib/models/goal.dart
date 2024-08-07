@@ -3,7 +3,7 @@
 
 class Goal {
   final String id;
-  final String userId; // ユーザーIDフィールドを追加
+  final String user_id; // ユーザーIDフィールドを追加
   final String title;
   final DateTime created_time;
   final DateTime updated_time;
@@ -12,7 +12,7 @@ class Goal {
 
   Goal({
     required this.id,
-    required this.userId, // ユーザーIDを追加
+    required this.user_id, // ユーザーIDを追加
     required this.title,
     required this.created_time,
     required this.updated_time,
@@ -20,10 +20,10 @@ class Goal {
     this.completionDate,
   });
 
-  Goal copyWith({String? userId, String? title, DateTime? updated_time, bool? is_completed, DateTime? completionDate}) {
+  Goal copyWith({String? user_id, String? title, DateTime? updated_time, bool? is_completed, DateTime? completionDate}) {
     return Goal(
       id: id,
-      userId: userId ?? this.userId, // ユーザーIDをコピー
+      user_id: user_id ?? this.user_id, // ユーザーIDをコピー
       title: title ?? this.title,
       created_time: created_time,
       updated_time: updated_time ?? this.updated_time,
@@ -35,7 +35,7 @@ class Goal {
   Map<String, dynamic> toJson() {
     return {
       'id': id,
-      'userId': userId, // ユーザーIDをJSONに変換
+      'user_id': user_id, // ユーザーIDをJSONに変換
       'title': title,
       'created_time': created_time.toIso8601String(),
       'updated_time': updated_time.toIso8601String(),
@@ -47,7 +47,7 @@ class Goal {
   static Goal fromJson(Map<String, dynamic> json) {
     return Goal(
       id: json['id'],
-      userId: json['userId'], // JSONからユーザーIDを取得
+      user_id: json['user_id'], // JSONからユーザーIDを取得
       title: json['title'],
       created_time: DateTime.parse(json['created_time']),
       updated_time: DateTime.parse(json['updated_time']),

@@ -12,9 +12,9 @@ class GoalRepository {
   GoalRepository(this._client);
 
   // Supabaseから目標リストを取得するメソッド
-  Future<List<Goal>> fetchGoals(String userId) async {
+  Future<List<Goal>> fetchGoals(String user_id) async {
     try {
-      final data = await _client.from('goals').select().eq('userId', userId) as List<dynamic>;
+      final data = await _client.from('goals').select().eq('user_id', user_id) as List<dynamic>;
       return data.map((goal) => Goal.fromJson(goal)).toList();
     } catch (e) {
       _logger.e('fetchGoals is error: $e');

@@ -60,10 +60,10 @@ class AddGoalScreen extends ConsumerWidget {
                         onPressed: text.isEmpty
                             ? null
                             : () async {
-                          final userId = await UserUtils.getUserId();
+                          final user_id = await UserUtils.getUserId();
                           final newGoal = Goal(
                             id: Uuid().v4(),
-                            userId: userId,
+                            user_id: user_id,
                             title: textController.text,
                             created_time: DateTime.now(),
                             updated_time: DateTime.now(),
