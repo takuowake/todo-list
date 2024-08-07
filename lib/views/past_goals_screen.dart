@@ -31,7 +31,7 @@ class PastGoalsScreen extends ConsumerWidget {
             subtitle: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('作成日: ${DateFormat('yyyy/MM/dd').format(goal.createdTime)}'),
+                Text('作成日: ${DateFormat('yyyy/MM/dd').format(goal.created_time)}'),
                 Text('完了日: ${goal.completionDate != null ? DateFormat('yyyy/MM/dd').format(goal.completionDate!) : '未完了'}'),
               ],
             ),

@@ -5,7 +5,7 @@ class Goal {
   final String id;
   final String userId; // ユーザーIDフィールドを追加
   final String title;
-  final DateTime createdTime;
+  final DateTime created_time;
   final DateTime updatedTime;
   final bool is_completed;
   final DateTime? completionDate;
@@ -14,7 +14,7 @@ class Goal {
     required this.id,
     required this.userId, // ユーザーIDを追加
     required this.title,
-    required this.createdTime,
+    required this.created_time,
     required this.updatedTime,
     this.is_completed = false,
     this.completionDate,
@@ -25,7 +25,7 @@ class Goal {
       id: id,
       userId: userId ?? this.userId, // ユーザーIDをコピー
       title: title ?? this.title,
-      createdTime: createdTime,
+      created_time: created_time,
       updatedTime: updatedTime ?? this.updatedTime,
       is_completed: is_completed ?? this.is_completed,
       completionDate: completionDate ?? this.completionDate,
@@ -37,7 +37,7 @@ class Goal {
       'id': id,
       'userId': userId, // ユーザーIDをJSONに変換
       'title': title,
-      'createdTime': createdTime.toIso8601String(),
+      'created_time': created_time.toIso8601String(),
       'updatedTime': updatedTime.toIso8601String(),
       'is_completed': is_completed,
       'completionDate': completionDate?.toIso8601String(),
@@ -49,7 +49,7 @@ class Goal {
       id: json['id'],
       userId: json['userId'], // JSONからユーザーIDを取得
       title: json['title'],
-      createdTime: DateTime.parse(json['createdTime']),
+      created_time: DateTime.parse(json['created_time']),
       updatedTime: DateTime.parse(json['updatedTime']),
       is_completed: json['is_completed'],
       completionDate: json['completionDate'] != null ? DateTime.parse(json['completionDate']) : null,

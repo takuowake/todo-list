@@ -65,7 +65,7 @@ class AddGoalScreen extends ConsumerWidget {
                             id: Uuid().v4(),
                             userId: userId,
                             title: textController.text,
-                            createdTime: DateTime.now(),
+                            created_time: DateTime.now(),
                             updatedTime: DateTime.now(),
                           );
                           ref.read(goalListProvider.notifier).add(newGoal);
